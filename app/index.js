@@ -47,11 +47,11 @@ WptGenerator.prototype.askFor = function askFor() {
     choices: [{
       name: 'Bootstrap',
       value: 'useBootstrap',
-      checked: true
+      checked: false
     }, {
       name: 'Autoprefixer',
       value: 'useAutoprefixer',
-      checked: true
+      checked: false
     }]
   },
   {
@@ -61,7 +61,7 @@ WptGenerator.prototype.askFor = function askFor() {
     choices: [{
       name: 'Jshint',
       value: 'useJshint',
-      checked: true
+      checked: false
     }, {
       name: 'Modernizr',
       value: 'useModernizr',
@@ -112,11 +112,15 @@ WptGenerator.prototype.app = function app() {
   this.mkdir('app');
   this.mkdir('app/templates');
 
-  this.copy('_package.json', 'package.json');
-  this.copy('_bower.json', 'bower.json');
+  // Used to be this.copy(), can't figure out why files were still processed
+  this.template('_package.json', 'package.json');
+  this.template('_bower.json', 'bower.json');
+  this.template('_Gruntfile.js', 'Gruntfile.js');
+
 };
 
 WptGenerator.prototype.projectfiles = function projectfiles() {
+  this.copy('.gitignore', '.gitignore');
   this.copy('editorconfig', '.editorconfig');
   this.copy('jshintrc', '.jshintrc');
 };
