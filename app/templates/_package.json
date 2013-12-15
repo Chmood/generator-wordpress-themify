@@ -7,7 +7,7 @@
 
     "time-grunt": "~0.1.1",
     "load-grunt-tasks": "~0.1.0",
-    "grunt-concurrent": "~0.3.0"
+    "grunt-concurrent": "~0.3.0",
     "grunt-newer": "~0.5.4",
 
     "grunt-contrib-clean": "~0.5.0",
@@ -30,7 +30,7 @@
 
     "grunt-wp-version": "~0.1.0",
     "grunt-rev": "~0.1.0",
-    "grunt-usemin": "~2.0.0",
+    "grunt-usemin": "~2.0.0"
   },
   "engines": {
     "node": ">=0.8.0"
