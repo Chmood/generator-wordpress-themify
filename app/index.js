@@ -22,9 +22,14 @@ WptGenerator.prototype.askFor = function askFor() {
   // have Yeoman greet the user.
   console.log(this.yeoman);
   console.log(this.pkg.name + ' generator');
-  console.log('Out of the box I include HTML5 Boilerplate and jQuery.');
+  console.log('Out of the box I include Roots starter theme.');
 
   var prompts = [{
+    name: 'themeName',
+    message: 'What is the name of your theme?',
+    default: 'My WPT theme'
+  },
+  {
     type: 'list',
     name: 'preproCss',
     message: 'Do you prefer sass, less, or just css?',
@@ -93,8 +98,10 @@ WptGenerator.prototype.askFor = function askFor() {
     this.starterTheme =     'roots';
     this.cssFramework =     'bootstrap';
     this.testFramework =    'mocha';
+    this.dirTemplates =     'templatez';
 
-//    this.useJshint =        props.useJs['useJshint'];
+//    this.useJshint =        answers.useJs['useJshint'];
+    this.themeName =        answers.themeName;
     this.useJshint =        hasUseJs('useJshint');
     this.useModernizr =     hasUseJs('useModernizr');
     this.useCoffee =        hasUseJs('useCoffee');
@@ -110,7 +117,7 @@ WptGenerator.prototype.askFor = function askFor() {
 
 WptGenerator.prototype.app = function app() {
   this.mkdir('app');
-  this.mkdir('app/templates');
+  this.mkdir('app/' + this.dirTemplates);
 
   // Used to be this.copy(), can't figure out why files were still processed
   this.template('_package.json', 'package.json');

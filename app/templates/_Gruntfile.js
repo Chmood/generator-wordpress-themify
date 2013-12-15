@@ -12,8 +12,8 @@ module.exports = function(grunt) {
     // Project settings
     yeoman: {
       // Configurable paths
-      app: '.',
-      dist: '../<%%= pkg.name %>-dist'
+      dist: '../<%= themeName %>',
+      assets: 'assets'
     },
 
     // JAVASCRIPT
@@ -29,6 +29,7 @@ module.exports = function(grunt) {
         '!assets/js/scripts.min.js'
       ]
     },<% } %>
+<% if (!useRequirejs) { %>    // Uglify scripts
     uglify: {
       watch: {
         files: {
@@ -55,7 +56,7 @@ module.exports = function(grunt) {
           // sourceMappingURL: '/app/themes/roots/assets/js/scripts.min.js.map'
         }
       }
-    },
+    },<% } %>
 
     // CSS
     // TODO : simple css case
