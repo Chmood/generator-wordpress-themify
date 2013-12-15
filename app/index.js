@@ -52,14 +52,6 @@ WptGenerator.prototype.askFor = function askFor() {
       name: 'Autoprefixer',
       value: 'useAutoprefixer',
       checked: true
-    }, {
-      name: 'Coffeescript',
-      value: 'useCoffee',
-      checked: false
-    }, {
-      name: 'Unit-testing',
-      value: 'useTest',
-      checked: false
     }]
   },
   {
