@@ -1,6 +1,18 @@
 # generator-wpt [![Build Status](https://secure.travis-ci.org/Chmood/generator-wpt.png?branch=master)](https://travis-ci.org/Chmood/generator-wpt)
 
-A generator for [Yeoman](http://yeoman.io).
+Wordpress Theme generator for [Yeoman](http://yeoman.io).
+
+## Features
+
+* Bootstrap, in both Less and Sass versions
+* [Roots](https://github.com/roots/roots) starter theme
+* Modernizr (with custom build task)
+* RequireJS, plus some sample files
+* CSS autoprefixer
+* True 'dist' folder for optimized builds
+* Imagemin and svgmin support
+
+All features are optional, take only what you need!
 
 
 ## Getting Started
