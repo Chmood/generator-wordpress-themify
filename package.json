@@ -1,22 +1,32 @@
 {
   "name": "generator-wpt",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A generator for Yeoman",
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "wordpress",
+    "theme",
+    "roots",
+    "requirejs",
+    "modernizr"
   ],
-  "homepage": "https://github.com/Chmood/generator-wpt",
-  "bugs": "https://github.com/Chmood/generator-wpt/issues",
   "author": {
-    "name": "",
-    "email": "",
+    "name": "Nicolas Giethlen",
+    "email": "giethlen.nicolas@gmail.com",
     "url": "https://github.com/Chmood"
   },
+  "homepage": "https://github.com/Chmood/generator-wpt",
+  "bugs": "https://github.com/Chmood/generator-wpt/issues",
   "main": "app/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/Chmood/generator-wpt.git"
   },
+  "licenses": [{
+    "type": "MIT",
+    "url": "http://opensource.org/licenses/MIT"
+  }],
+
   "scripts": {
     "test": "mocha"
   },
