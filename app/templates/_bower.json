@@ -1,5 +1,5 @@
 {
-  "name": "<%= _.slugify(appname) %>",
+  "name": "<%= _.slugify(themeName) %>",
   "version": "0.0.0",
   "dependencies": {<% if (preproCss === 'sass' && cssFramework === 'bootstrap') { %>
     "sass-bootstrap": "~3.0.0",<% } %><% if (preproCss === 'less' && cssFramework === 'bootstrap') { %>
