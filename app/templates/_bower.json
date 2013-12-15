@@ -1,9 +1,9 @@
 {
   "name": "<%= _.slugify(appname) %>",
   "version": "0.0.0",
-  "dependencies": {<% if (useModernizr) { %>
-    "sass-bootstrap": "~3.0.0",<% } %>
-    "bootstrap": "~3.0.3",<% if (useModernizr) { %>
+  "dependencies": {<% if (preproCss === 'sass' && cssFramework === 'bootstrap') { %>
+    "sass-bootstrap": "~3.0.0",<% } %><% if (preproCss === 'less' && cssFramework === 'bootstrap') { %>
+    "bootstrap": "~3.0.3",<% } %><% if (useModernizr) { %>
     "modernizr": "~2.6.2",<% } %><% if (useRequirejs) { %>
     "requirejs": "~2.1.8",<% } %>
     "jquery": "~1.10.2"

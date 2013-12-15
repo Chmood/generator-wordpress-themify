@@ -69,7 +69,7 @@ WptGenerator.prototype.askFor = function askFor() {
     choices: [{
       name: 'Jshint',
       value: 'useJshint',
-      checked: false
+      checked: true
     }, {
       name: 'Modernizr',
       value: 'useModernizr',
@@ -89,22 +89,28 @@ WptGenerator.prototype.askFor = function askFor() {
     }]
   }];
 
-  this.prompt(prompts, function (props) {
-    this.someOption = props.someOption;
+  this.prompt(prompts, function (answers) {
+    var preproCss = answers.preproCss,
+        useCss = answers.useCss,
+        useJs = answers.useJs;
+
+    function hasUseCss(feat) { return useCss.indexOf(feat) !== -1; }
+    function hasUseJs(feat) { return useJs.indexOf(feat) !== -1; }
 
     // Ugly default config overide
     this.starterTheme =     'roots';
     this.cssFramework =     'bootstrap';
     this.testFramework =    'mocha';
 
-    this.useJshint =        props.useJs['useJshint'];
-    this.useModernizr =     false;
-    this.useCoffee =        false;
-    this.useTest =          false;
-    this.useRequirejs =     false;
-    this.preproCss =        'less';
-    this.useAutoprefixer =  false;
-    this.useImagemin =      false;
+//    this.useJshint =        props.useJs['useJshint'];
+    this.useJshint =        hasUseJs('useJshint');
+    this.useModernizr =     hasUseJs('useModernizr');
+    this.useCoffee =        hasUseJs('useCoffee');
+    this.useTest =          hasUseJs('useTest');
+    this.useRequirejs =     hasUseJs('useRequirejs');
+    this.preproCss =        preproCss;
+    this.useAutoprefixer =  hasUseCss('useAutoprefixer');
+    this.useImagemin =      hasUseCss('useImagemin');
 
     cb();
   }.bind(this));
