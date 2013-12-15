@@ -12,9 +12,7 @@ module.exports = function(grunt) {
     // Project settings
     yeoman: {
       // Configurable paths
-      app: '.',
-      dist: '../<%= themeName %>',
-      assets: 'assets'
+      dist: '../<%= themeName %>'
     },
 
     // JAVASCRIPT
@@ -26,15 +24,15 @@ module.exports = function(grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%%= yeoman.app %>assets/js/{,*/}*.js',
-        '!<%%= yeoman.app %>/assets/js/scripts.min.js'
+        '<%= dirApp %>assets/js/{,*/}*.js',
+        '!<%= dirApp %>/assets/js/scripts.min.js'
       ]
     },<% } %>
 <% if (!useRequirejs) { %>    // Uglify scripts
     uglify: {
       watch: {
         files: {
-          '<%%= yeoman.app %>/assets/js/scripts.min.js': [
+          '<%= dirApp %>/assets/js/scripts.min.js': [<% if (useBootstrap && (preproCss === 'less' || preproCss === 'css')) { %>
             'bower_components/bootstrap/js/transition.js',
             'bower_components/bootstrap/js/alert.js',
             'bower_components/bootstrap/js/button.js',
@@ -46,9 +44,21 @@ module.exports = function(grunt) {
             'bower_components/bootstrap/js/popover.js',
             'bower_components/bootstrap/js/scrollspy.js',
             'bower_components/bootstrap/js/tab.js',
-            'bower_components/bootstrap/js/affix.js',
-            '<%%= yeoman.app %>/assets/js/plugins/*.js',
-            '<%%= yeoman.app %>/assets/js/_*.js'
+            'bower_components/bootstrap/js/affix.js',<% } %><% if (useBootstrap && preproCss === 'sass') { %>
+            'bower_components/sass-bootstrap/js/transition.js',
+            'bower_components/sass-bootstrap/js/alert.js',
+            'bower_components/sass-bootstrap/js/button.js',
+            'bower_components/sass-bootstrap/js/carousel.js',
+            'bower_components/sass-bootstrap/js/collapse.js',
+            'bower_components/sass-bootstrap/js/dropdown.js',
+            'bower_components/sass-bootstrap/js/modal.js',
+            'bower_components/sass-bootstrap/js/tooltip.js',
+            'bower_components/sass-bootstrap/js/popover.js',
+            'bower_components/sass-bootstrap/js/scrollspy.js',
+            'bower_components/sass-bootstrap/js/tab.js',
+            'bower_components/sass-bootstrap/js/affix.js',<% } %>
+            '<%= dirApp %>/assets/js/plugins/*.js',
+            '<%= dirApp %>/assets/js/_*.js'
           ]
         },
         options: {
@@ -65,8 +75,8 @@ module.exports = function(grunt) {
     less: {
       watch: {
         files: {
-          '<%%= yeoman.app %>/assets/css/main.min.css': [
-            '<%%= yeoman.app %>/assets/less/app.less'
+          '<%= dirApp %>/assets/css/main.min.css': [
+            '<%= dirApp %>/assets/less/app.less'
           ]
         },
         options: {
@@ -74,7 +84,7 @@ module.exports = function(grunt) {
           // LESS source map
           // To enable, set sourceMap to true and update sourceMapRootpath based on your install
           sourceMap: false,
-          sourceMapFilename: '<%%= yeoman.app %>/assets/css/main.min.css.map',
+          sourceMapFilename: '<%= dirApp %>/assets/css/main.min.css.map',
           sourceMapRootpath: '/app/themes/roots/'
         }
       }
@@ -82,26 +92,26 @@ module.exports = function(grunt) {
 <% if (preproCss === 'sass') { %>   // Sass compilation
     compass: {
       options: {
-        sassDir: '<%%= yeoman.app %>/assets/sass',
-        cssDir: '<%%= yeoman.app %>/.tmp/assets/css',
+        sassDir: '<%= dirApp %>/assets/sass',
+        cssDir: '<%= dirApp %>/.tmp/assets/css',
         // CSS output mode. Can be: nested, expanded, compact, compressed.
         outputStyle: 'compressed',
         // TODO : figure out what's the use of the options below
-        generatedImagesDir: '<%%= yeoman.app %>/.tmp/images/generated',
-        imagesDir: '<%%= yeoman.app %>/assets/img',
-        javascriptsDir: '<%%= yeoman.app %>/assets/js',
-        fontsDir: '<%%= yeoman.app %>/assets/fonts',
-        importPath: '<%%= yeoman.app %>/bower_components',
-        httpImagesPath: '<%%= yeoman.app %>/assets/img',
-        httpGeneratedImagesPath: '<%%= yeoman.app %>/assets/img/generated',
-        httpFontsPath: '<%%= yeoman.app %>/assets/fonts',
+        generatedImagesDir: '<%= dirApp %>/.tmp/images/generated',
+        imagesDir: '<%= dirApp %>/assets/img',
+        javascriptsDir: '<%= dirApp %>/assets/js',
+        fontsDir: '<%= dirApp %>/assets/fonts',
+        importPath: '<%= dirApp %>/bower_components',
+        httpImagesPath: '<%= dirApp %>/assets/img',
+        httpGeneratedImagesPath: '<%= dirApp %>/assets/img/generated',
+        httpFontsPath: '<%= dirApp %>/assets/fonts',
         relativeAssets: false,
         assetCacheBuster: false,
         debugInfo: true
       },
       watch: {
         options: {
-          generatedImagesDir: '<%%= yeoman.app %>/assets/img/generated'
+          generatedImagesDir: '<%= dirApp %>/assets/img/generated'
         }
       }
     },<% } %>
@@ -113,9 +123,9 @@ module.exports = function(grunt) {
       watch: {
         files: [{
           expand: true,
-          cwd: '<%%= yeoman.app %>/assets/css',
+          cwd: '<%= dirApp %>/assets/css',
           src: 'main.min.css',
-          dest: '<%%= yeoman.app %>/assets/css'
+          dest: '<%= dirApp %>/assets/css'
         }]
       }
     },<% } %>
@@ -127,7 +137,7 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%%= yeoman.app %>/assets/img',
+          cwd: '<%= dirApp %>/assets/img',
           src: '{,*/}*.{gif,jpeg,jpg,png}',
           dest: '<%%= yeoman.dist %>/assets/img'
         }]
@@ -137,7 +147,7 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%%= yeoman.app %>/assets/img',
+          cwd: '<%= dirApp %>/assets/img',
           src: '{,*/}*.svg',
           dest: '<%%= yeoman.dist %>/assets/img'
         }]
@@ -145,10 +155,10 @@ module.exports = function(grunt) {
     },<% } %>
     version: {
       options: {
-        file: '<%%= yeoman.app %>/lib/scripts.php',
-        css: '<%%= yeoman.app %>/assets/css/main.min.css',
+        file: '<%= dirApp %>/lib/scripts.php',
+        css: '<%= dirApp %>/assets/css/main.min.css',
         cssHandle: 'roots_main',
-        js: '<%%= yeoman.app %>/assets/js/scripts.min.js',
+        js: '<%= dirApp %>/assets/js/scripts.min.js',
         jsHandle: 'roots_scripts'
       }
     },
@@ -157,8 +167,8 @@ module.exports = function(grunt) {
       devFile: 'bower_components/modernizr/modernizr.js',
       outputFile: '<%%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
       files: [
-        '<%%= yeoman.app %>/assets/js/{,*/}*.js',
-        '<%%= yeoman.app %>/assets/css/{,*/}*.css'
+        '<%= dirApp %>/assets/js/{,*/}*.js',
+        '<%= dirApp %>/assets/css/{,*/}*.css'
       ],
       uglify: true
     },<% } %>
@@ -172,14 +182,14 @@ module.exports = function(grunt) {
       //  you better comment out either less: or compass: section below
       less: {
         files: [
-          '<%%= yeoman.app %>/assets/less/*.less',
-          '<%%= yeoman.app %>/assets/less/bootstrap/*.less'
+          '<%= dirApp %>/assets/less/*.less',
+          '<%= dirApp %>/assets/less/bootstrap/*.less'
         ],
         tasks: ['less', 'autoprefixer', 'version']
       },
       compass: {
         files: [
-          '<%%= yeoman.app %>/assets/sass/{,*/}*.{scss,sass}'
+          '<%= dirApp %>/assets/sass/{,*/}*.{scss,sass}'
         ],
         tasks: ['compass', 'cssmin', 'autoprefixer', 'version']
       },
@@ -200,10 +210,10 @@ module.exports = function(grunt) {
           livereload: true
         },
         files: [
-          '<%%= yeoman.app %>/assets/css/main.min.css',
-          '<%%= yeoman.app %>/assets/js/scripts.min.js',
-          '<%%= yeoman.app %>/templates/*.php',
-          '<%%= yeoman.app %>/*.php'
+          '<%= dirApp %>/assets/css/main.min.css',
+          '<%= dirApp %>/assets/js/scripts.min.js',
+          '<%= dirApp %>/templates/*.php',
+          '<%= dirApp %>/*.php'
         ]
       }
     },
@@ -215,8 +225,8 @@ module.exports = function(grunt) {
         force: true
       },
       watch: [
-        '<%%= yeoman.app %>/assets/css/main.min.css',
-        '<%%= yeoman.app %>/assets/js/scripts.min.js'
+        '<%= dirApp %>/assets/css/main.min.css',
+        '<%= dirApp %>/assets/js/scripts.min.js'
       ],
       dist: [
         '<%%= yeoman.dist %>'
@@ -229,7 +239,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
             dot: true,
-            cwd: '<%%= yeoman.app %>',
+            cwd: '<%= dirApp %>',
             dest: '<%%= yeoman.dist %>',
             src: [
               'style.css',

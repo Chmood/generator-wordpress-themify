@@ -12,6 +12,8 @@ var WptGenerator = module.exports = function WptGenerator(args, options, config)
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
+
+  // TODO : command line option for parsing a json config file
 };
 
 util.inherits(WptGenerator, yeoman.generators.Base);
@@ -98,7 +100,11 @@ WptGenerator.prototype.askFor = function askFor() {
     this.starterTheme =     'roots';
     this.cssFramework =     'bootstrap';
     this.testFramework =    'mocha';
-    this.dirTemplates =     'templatez';
+
+    this.dirAssets =        'assets',
+    this.dirStyles =        'styles',
+    this.dirScripts =       'scripts',
+    this.dirImages =        'images',
 
 //    this.useJshint =        answers.useJs['useJshint'];
     this.themeName =        answers.themeName;
@@ -108,6 +114,7 @@ WptGenerator.prototype.askFor = function askFor() {
     this.useTest =          hasUseJs('useTest');
     this.useRequirejs =     hasUseJs('useRequirejs');
     this.preproCss =        preproCss;
+    this.useBootstrap =     hasUseCss('useBootstrap');
     this.useAutoprefixer =  hasUseCss('useAutoprefixer');
     this.useImagemin =      hasUseCss('useImagemin');
 
@@ -116,6 +123,8 @@ WptGenerator.prototype.askFor = function askFor() {
 };
 
 WptGenerator.prototype.app = function app() {
+  
+//  if (this.)
   this.mkdir('app');
   this.mkdir('app/' + this.dirTemplates);
 
