@@ -196,7 +196,7 @@ module.exports = function(grunt) {
       options: {
         file: 'lib/scripts.php',
         css: 'assets/css/main.css',
-        cssHandle: 'roots_main',
+        cssHandle: 'roots_styles',
         js: 'assets/js/main.js',
         jsHandle: 'roots_scripts'
       }
