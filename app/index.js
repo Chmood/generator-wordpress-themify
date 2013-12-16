@@ -142,8 +142,10 @@ WptGenerator.prototype.app = function app() {
   this.mkdir('assets/fonts');
 
   // Push modified php files
-  if (this.starterTheme === 'roots')
+  if (this.starterTheme === 'roots') {
     this.directory('.phpmod', '.phpmod');
+  } else if (this.starterTheme === 'none') {
+    this.copy('index.php', 'index.php');
   }
 
   // Populates less/sass directories
@@ -157,7 +159,7 @@ WptGenerator.prototype.app = function app() {
     } else {
       this.copy('assets/css/main.css', 'assets/css/main.css');
     }
-  };
+  }
 
   // Populates js directory
   if (!this.useRequirejs) {
