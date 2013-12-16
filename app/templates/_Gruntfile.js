@@ -25,14 +25,14 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'assets/js/{,*/}*.js',
-        '!assets/js/scripts.min.js'
+        '!assets/js/main.js'
       ]
     },<% } %>
 <% if (!useRequirejs) { %>    // Uglify scripts
     uglify: {
       app: {
         files: {
-          'assets/js/scripts.min.js': [<% if (useBootstrap && (preproCss === 'less' || preproCss === 'css')) { %>
+          'assets/js/main.js': [<% if (useBootstrap && (preproCss === 'less' || preproCss === 'css')) { %>
             'bower_components/bootstrap/js/transition.js',
             'bower_components/bootstrap/js/alert.js',
             'bower_components/bootstrap/js/button.js',
@@ -57,14 +57,15 @@ module.exports = function(grunt) {
             'bower_components/sass-bootstrap/js/scrollspy.js',
             'bower_components/sass-bootstrap/js/tab.js',
             'bower_components/sass-bootstrap/js/affix.js',<% } %>
+
             'assets/js/plugins/*.js',
             'assets/js/_*.js'
           ]
         },
         options: {
           // JS source map: to enable, uncomment the lines below and update sourceMappingURL based on your install
-          // sourceMap: 'assets/js/scripts.min.js.map',
-          // sourceMappingURL: '/app/themes/roots/assets/js/scripts.min.js.map'
+          // sourceMap: 'assets/js/main.js.map',
+          // sourceMappingURL: '/app/themes/roots/assets/js/main.js.map'
         }
       }
     },<% } %>
@@ -79,7 +80,7 @@ module.exports = function(grunt) {
           ext: '.js'
         }]
       },
-      test: {
+      test: { // TODO : give love to coffee...
         files: [{
           expand: true,
           cwd: 'test/spec',
@@ -196,7 +197,7 @@ module.exports = function(grunt) {
         file: 'lib/scripts.php',
         css: 'assets/css/main.css',
         cssHandle: 'roots_main',
-        js: 'assets/js/scripts.min.js',
+        js: 'assets/js/main.js',
         jsHandle: 'roots_scripts'
       }
     },<% } %>
@@ -249,7 +250,7 @@ module.exports = function(grunt) {
         },
         files: [
           'assets/css/main.css',
-          'assets/js/scripts.min.js',<% if (starterTheme === 'roots') { %>
+          'assets/js/main.js',<% if (starterTheme === 'roots') { %>
           'templates/*.php',
           'lib/*.php',
           '*.php'<% } %>
@@ -265,7 +266,7 @@ module.exports = function(grunt) {
       },
       app: [<% if (preproCss !== 'css') { %>
         'assets/css/main.css',<% } %>
-        'assets/js/scripts.min.js'
+        'assets/js/main.js'
       ],
       dist: [
         '<%%= yeoman.dist %>'
@@ -290,7 +291,7 @@ module.exports = function(grunt) {
             '{,*/}*.php',
             'lang/*.*',
             'assets/fonts/*.*',
-            'assets/js/scripts.min.js',
+            'assets/js/main.js',
             'assets/js/vendor/{,*/}*.js'
           ]
         }]
