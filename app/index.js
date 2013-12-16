@@ -147,9 +147,9 @@ WptGenerator.prototype.app = function app() {
   
 //  if (this.)
   this.mkdir('assets');
-  this.mkdir('assets/' + this.dirStyles);
-  this.mkdir('assets/' + this.dirScripts);
-  this.mkdir('assets/' + this.dirImages);
+  this.mkdir('assets/css');
+  this.mkdir('assets/js');
+  this.mkdir('assets/img');
   this.mkdir('assets/fonts');
   if (this.preproCss === 'less') {
     this.directory('assets/less/', 'assets/less');
