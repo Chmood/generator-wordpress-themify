@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     },<% } %>
 <% if (!useRequirejs) { %>    // Uglify scripts
     uglify: {
-      watch: {
+      app: {
         files: {
           'assets/js/scripts.min.js': [<% if (useBootstrap && (preproCss === 'less' || preproCss === 'css')) { %>
             'bower_components/bootstrap/js/transition.js',
@@ -94,45 +94,44 @@ module.exports = function(grunt) {
     // TODO : simple css case
 <% if (preproCss === 'less') { %>   // Less compilation
     less: {
-      watch: {
+      app: {
         files: {
           'assets/css/main.css': [
             'assets/less/main.less'
           ]
         },
         options: {
-          compress: true,
+          compress: true, // remove some spaces
           // LESS source map
           // To enable, set sourceMap to true and update sourceMapRootpath based on your install
-          sourceMap: false,
+          sourceMap: true,
           sourceMapFilename: 'assets/css/main.css.map',
-          sourceMapRootpath: '/app/themes/roots/'
+          sourceMapRootpath: '/app/themes/<%= _.slugify(appname) %>/'
         }
       }
     },<% } %>
 <% if (preproCss === 'sass') { %>   // Sass compilation
     compass: {
-      options: {
-        sassDir: 'assets/sass',
-        cssDir: 'assets/css',
-        // CSS output mode. Can be: nested, expanded, compact, compressed.
-        outputStyle: 'compressed',
-        // TODO : figure out what's the use of the options below
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: 'assets/img',
-        javascriptsDir: 'assets/js',
-        fontsDir: 'assets/fonts',
-        importPath: 'bower_components',
-        httpImagesPath: 'assets/img',
-        httpGeneratedImagesPath: 'assets/img/generated',
-        httpFontsPath: 'assets/fonts',
-        relativeAssets: false,
-        assetCacheBuster: false,
-        debugInfo: true
-      },
-      watch: {
+      app: {
         options: {
-          generatedImagesDir: 'assets/img/generated'
+          sassDir: 'assets/sass',
+          cssDir: 'assets/css',
+          // CSS output mode. Can be: nested, expanded, compact, compressed.
+          outputStyle: 'compressed',
+          // TODO : figure out what's the use of the options below
+          generatedImagesDir: '.tmp/images/generated',
+          imagesDir: 'assets/img',
+          javascriptsDir: 'assets/js',
+          fontsDir: 'assets/fonts',
+          importPath: 'bower_components',
+          httpImagesPath: 'assets/img',
+          httpGeneratedImagesPath: 'assets/img/generated',
+          httpFontsPath: 'assets/fonts',
+          relativeAssets: false,
+          assetCacheBuster: false,
+          debugInfo: true
+          // Sourcemaps needs latest sass gem
+          // See : https://developers.google.com/chrome-developer-tools/docs/css-preprocessors#toc-enabling-css-source-maps
         }
       }
     },<% } %>
@@ -141,7 +140,7 @@ module.exports = function(grunt) {
       options: {
         browsers: ['last 1 version']
       },
-      watch: {
+      app: {
         files: [{
           expand: true,
           cwd: 'assets/css',
@@ -150,6 +149,18 @@ module.exports = function(grunt) {
         }]
       }
     },<% } %>
+
+    // CSS minification
+    cssmin: {
+      dist: {
+        files: {
+          '<%%= yeoman.dist %>/assets/css/main.css': [
+              'assets/css/main.css'
+          ]
+        }
+      }
+    },
+
 <% if (useImagemin) { %>    // IMAGES
     imagemin: {
       options: {
@@ -215,7 +226,7 @@ module.exports = function(grunt) {
         files: [
           'assets/sass/{,*/}*.{scss,sass}'
         ],
-        tasks: ['compass', 'cssmin', 'autoprefixer', 'version']
+        tasks: ['compass', 'autoprefixer', 'version']
       },<% } %>
       js: {
         files: [
@@ -227,10 +238,10 @@ module.exports = function(grunt) {
           files: ['test/spec/{,*/}*.js'],
           tasks: ['test:watch']
       },<% } %><% if (useCoffee) { %>
-      coffee: {
-        files: ['js/{,*/}*.{coffee,litcoffee,coffee.md}'],
-        tasks: ['coffee:dist']
-      },<% } %>
+//      coffee: {
+//        files: ['js/{,*/}*.{coffee,litcoffee,coffee.md}'],
+//        tasks: ['coffee:dist']
+//      },<% } %>
       // Files that trigger a livereload event
       livereload: {
         options: {
@@ -252,7 +263,7 @@ module.exports = function(grunt) {
         // force is needed in case of deleting files outside the root directory
         force: true
       },
-      watch: [<% if (preproCss !== 'css') { %>
+      app: [<% if (preproCss !== 'css') { %>
         'assets/css/main.css',<% } %>
         'assets/js/scripts.min.js'
       ],
@@ -278,7 +289,6 @@ module.exports = function(grunt) {
             'screenshot.{png/jpg/jpeg}',
             '{,*/}*.php',
             'lang/*.*',
-            'assets/css/*.css',
             'assets/fonts/*.*',
             'assets/js/scripts.min.js',
             'assets/js/vendor/{,*/}*.js'
@@ -322,20 +332,19 @@ module.exports = function(grunt) {
 
   // Compiles sass/less files to CSS
   grunt.registerTask('compile-css', [<% if (preproCss === 'less') { %>
-    'less',<% } %><% if (preproCss === 'sass') { %>
-    'compass',<% } %><% if (useAutoprefixer) { %>
+    'less:app',<% } %><% if (preproCss === 'sass') { %>
+    'compass:app',<% } %><% if (useAutoprefixer) { %>
     'autoprefixer',<% } %>
   ]);
   
   // Public tasks, called from grunt CLI
 
   grunt.registerTask('default', [
-    'app',
     'dist'
   ]);
 
   grunt.registerTask('app', [
-    'clean:watch',<% if (useCoffee) { %>
+    'clean:app',<% if (useCoffee) { %>
     'coffee',<% } %>
     'uglify',
     'compile-css',<% if (starterTheme === 'roots') { %>
@@ -344,8 +353,10 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('dist', [
+    'app',
     'clean:dist',
-    'copy:dist',<% if (useImagemin) { %>
+    'copy:dist',
+    'cssmin',<% if (useImagemin) { %>
     'imagemin',
     'svgmin',<% } %><% if (useModernizr) { %>
     'modernizr',<% } %>

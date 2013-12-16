@@ -34,6 +34,7 @@
     "grunt-autoprefixer": "~0.2.0",<% } %><% if (useImagemin) { %>
     "grunt-contrib-imagemin": "~0.2.0",
     "grunt-svgmin": "~0.2.0",<% } %>
+    "grunt-contrib-cssmin": "~0.7.0",
 
     "grunt-wp-version": "~0.1.0",
     "grunt-rev": "~0.1.0",
