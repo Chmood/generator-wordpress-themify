@@ -12,7 +12,7 @@ module.exports = function(grunt) {
     // Project settings
     yeoman: {
       // Where to build the final theme
-      dist: '../<%= themeName %>'
+      dist: '../<%= _.slugify(themeName) %>'
     },
 
     // JAVASCRIPT
@@ -161,6 +161,12 @@ module.exports = function(grunt) {
           cwd: 'assets/img',
           src: '{,*/}*.{gif,jpeg,jpg,png}',
           dest: '<%%= yeoman.dist %>/assets/img'
+        },
+        {
+          expand: true,
+          cwd: '.',
+          src: '{,*/}*.{gif,jpeg,jpg,png}',
+          dest: '<%%= yeoman.dist %>'
         }]
       }
     },
@@ -271,6 +277,7 @@ module.exports = function(grunt) {
             'bower_components/jquery/jquery.min.js',
             'screenshot.{png/jpg/jpeg}',
             '{,*/}*.php',
+            'lang/*.*',
             'assets/css/*.css',
             'assets/fonts/*.*',
             'assets/js/scripts.min.js',
@@ -323,6 +330,11 @@ module.exports = function(grunt) {
   // Public tasks, called from grunt CLI
 
   grunt.registerTask('default', [
+    'app',
+    'dist'
+  ]);
+
+  grunt.registerTask('app', [
     'clean:watch',<% if (useCoffee) { %>
     'coffee',<% } %>
     'uglify',
@@ -332,11 +344,11 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('dist', [
-    'clean:dist',<% if (useModernizr) { %>
-    'modernizr',<% } %><% if (useImagemin) { %>
+    'clean:dist',
+    'copy:dist',<% if (useImagemin) { %>
     'imagemin',
-    'svgmin',<% } %>
-    'copy:dist'
+    'svgmin',<% } %><% if (useModernizr) { %>
+    'modernizr',<% } %>
   ]);
 <% if (starterTheme === 'roots') { %>
   grunt.registerTask('initphp', [

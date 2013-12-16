@@ -77,6 +77,10 @@ WptGenerator.prototype.askFor = function askFor() {
       name: 'Autoprefixer',
       value: 'useAutoprefixer',
       checked: true
+    }, {
+      name: 'Minify images',
+      value: 'useImagemin',
+      checked: true
     }]
   },
   {
@@ -143,7 +147,6 @@ WptGenerator.prototype.app = function app() {
   this.mkdir('assets');
   this.mkdir('assets/css');
   this.mkdir('assets/js');
-  this.mkdir('assets/img');
   this.mkdir('assets/fonts');
 
   // Push modified php files
@@ -172,6 +175,9 @@ WptGenerator.prototype.app = function app() {
   } else {
     this.directory('assets/js-requirejs/', 'assets/js');
   }
+
+  // Put on some sample images
+  this.directory('assets/img/', 'assets/img');
 
   // Processing template files
   this.template('_package.json', 'package.json');
