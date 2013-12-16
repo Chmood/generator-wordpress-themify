@@ -68,6 +68,27 @@ module.exports = function(grunt) {
         }
       }
     },<% } %>
+<% if (useCoffee) { %>    // Compiles CoffeeScript to JavaScript
+    coffee: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'js',
+          src: '{,*/}*.{coffee,litcoffee,coffee.md}',
+          dest: '.tmp/js',
+          ext: '.js'
+        }]
+      },
+      test: {
+        files: [{
+          expand: true,
+          cwd: 'test/spec',
+          src: '{,*/}*.{coffee,litcoffee,coffee.md}',
+          dest: '.tmp/spec',
+          ext: '.js'
+        }]
+      }
+    },<% } %>
 
     // CSS
     // TODO : simple css case
@@ -204,6 +225,10 @@ module.exports = function(grunt) {
           files: ['test/spec/{,*/}*.js'],
           tasks: ['test:watch']
       },
+      coffee: {
+        files: ['js/{,*/}*.{coffee,litcoffee,coffee.md}'],
+        tasks: ['coffee:dist']
+      },
       // Files that trigger a livereload event
       livereload: {
         options: {
@@ -301,10 +326,12 @@ module.exports = function(grunt) {
   // Public tasks, called from grunt CLI
 
   grunt.registerTask('default', [
-    'clean:watch',
+    'clean:watch',<% if (useCoffee) { %>
+    'coffee',<% } %>
     'compile-css',
     'uglify',
-    'version'
+    'version',
+    'copy:initphp'
   ]);
 
   grunt.registerTask('dist', [

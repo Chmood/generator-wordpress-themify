@@ -12,32 +12,7 @@ var WptGenerator = module.exports = function WptGenerator(args, options, config)
       skipInstall: options['skip-install'],
 
       // Copy roots' php files after bower install has been performed
-      // TODO find a way to copy directories or files with * wildcard
       // http://stackoverflow.com/questions/19582786/yeoman-custom-generator-how-to-access-the-generated-project-in-the-dependencie
-/*
-      callback: function () {
-        var projectDir = process.cwd();
-        function endCopyFiles(cwd, dest, files) {
-          for (var i = 0; i < files.length; i++) {
-            fs.createReadStream(cwd + files[i]).pipe(
-              fs.createWriteStream(dest + files[i]));
-          }
-        };
-        endCopyFiles(
-          projectDir + '/bower_components/roots/',
-          projectDir + '/',
-          [
-            '404.php',
-            'base.php',
-            'functions.php',
-            'index.php',
-            'page.php',
-            'single.php',
-            'template-custom.php'
-          ]
-        );
-      }.bind(this)
-*/
       });
   });
 
@@ -122,7 +97,7 @@ WptGenerator.prototype.askFor = function askFor() {
 
     function hasUse(prompt, feat) { return answers[prompt].indexOf(feat) !== -1; }
 
-    // Ugly default config overide
+    // Hardcoded values for future features
     this.starterTheme =     'roots';
     this.cssFramework =     'bootstrap';
     this.testFramework =    'mocha';
