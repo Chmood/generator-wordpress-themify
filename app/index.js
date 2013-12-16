@@ -29,7 +29,7 @@ WptGenerator.prototype.askFor = function askFor() {
   // have Yeoman greet the user.
   console.log(this.yeoman);
   console.log(this.pkg.name + ' generator');
-  console.log('Out of the box I include Roots starter theme.');
+  console.log('Out of the box I include... nothing! (YOU include things)');
 
   var prompts = [{
     name: 'themeName',
@@ -53,6 +53,19 @@ WptGenerator.prototype.askFor = function askFor() {
     default: 0
   },
   {
+    type: 'list',
+    name: 'starterTheme',
+    message: 'Which Wordpress starter theme to use?',
+    choices: [{
+      name: 'Roots',
+      value: 'roots',
+    }, {
+      name: 'None',
+      value: 'none',
+    }],
+    default: 0
+  },
+  {
     type: 'checkbox',
     name: 'css',
     message: 'Any CSS helper?',
@@ -69,7 +82,7 @@ WptGenerator.prototype.askFor = function askFor() {
   {
     type: 'checkbox',
     name: 'js',
-    message: 'And what about javascript?',
+    message: 'What about javascript?',
     choices: [{
       name: 'Jshint',
       value: 'useJshint',
@@ -98,17 +111,19 @@ WptGenerator.prototype.askFor = function askFor() {
     function hasUse(prompt, feat) { return answers[prompt].indexOf(feat) !== -1; }
 
     // Hardcoded values for future features
-    this.starterTheme =     'roots';
     this.cssFramework =     'bootstrap';
     this.testFramework =    'mocha';
 
 //    this.useJshint =        answers.useJs['useJshint'];
     this.themeName =        answers.themeName;
+    this.starterTheme =     answers.starterTheme;
+
     this.useJshint =        hasUse('js', 'useJshint');
     this.useModernizr =     hasUse('js', 'useModernizr');
     this.useCoffee =        hasUse('js', 'useCoffee');
     this.useTest =          hasUse('js', 'useTest');
     this.useRequirejs =     hasUse('js', 'useRequirejs');
+
     this.preproCss =        answers.preproCss;
     this.useBootstrap =     hasUse('css', 'useBootstrap');
     this.useAutoprefixer =  hasUse('css', 'useAutoprefixer');
@@ -127,7 +142,9 @@ WptGenerator.prototype.app = function app() {
   this.mkdir('assets/fonts');
 
   // Push modified php files
-  this.directory('.phpmod', '.phpmod');
+  if (this.starterTheme === 'roots')
+    this.directory('.phpmod', '.phpmod');
+  }
 
   // Populates less/sass directories
   if (this.preproCss === 'less') {

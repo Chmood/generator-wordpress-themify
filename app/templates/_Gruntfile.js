@@ -173,7 +173,7 @@ module.exports = function(grunt) {
           dest: '<%%= yeoman.dist %>/assets/img'
         }]
       }
-    },<% } %>
+    },<% } %><% if (starterTheme === 'roots') { %>
     version: {
       options: {
         file: 'lib/scripts.php',
@@ -182,7 +182,7 @@ module.exports = function(grunt) {
         js: 'assets/js/scripts.min.js',
         jsHandle: 'roots_scripts'
       }
-    },
+    },<% } %>
 <% if (useModernizr) { %>   // Modernizr minimal custom build
     modernizr: {
       devFile: 'bower_components/modernizr/modernizr.js',
@@ -232,9 +232,10 @@ module.exports = function(grunt) {
         },
         files: [
           'assets/css/main.css',
-          'assets/js/scripts.min.js',
+          'assets/js/scripts.min.js',<% if (starterTheme === 'roots') { %>
           'templates/*.php',
-          '*.php'
+          'lib/*.php',
+          '*.php'<% } %>
         ]
       }
     },
@@ -325,9 +326,9 @@ module.exports = function(grunt) {
     'clean:watch',<% if (useCoffee) { %>
     'coffee',<% } %>
     'uglify',
-    'compile-css',
+    'compile-css',<% if (starterTheme === 'roots') { %>
     'copy:initphp',
-    'version'
+    'version'<% } %>
   ]);
 
   grunt.registerTask('dist', [
@@ -337,10 +338,10 @@ module.exports = function(grunt) {
     'svgmin',<% } %>
     'copy:dist'
   ]);
-
+<% if (starterTheme === 'roots') { %>
   grunt.registerTask('initphp', [
     'copy:initphp'
-  ]);
+  ]);<% } %>
 
   // Aliases
 
