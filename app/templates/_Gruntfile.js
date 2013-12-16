@@ -96,8 +96,8 @@ module.exports = function(grunt) {
     less: {
       watch: {
         files: {
-          'assets/css/main.min.css': [
-            'assets/less/app.less'
+          'assets/css/main.css': [
+            'assets/less/main.less'
           ]
         },
         options: {
@@ -105,7 +105,7 @@ module.exports = function(grunt) {
           // LESS source map
           // To enable, set sourceMap to true and update sourceMapRootpath based on your install
           sourceMap: false,
-          sourceMapFilename: 'assets/css/main.min.css.map',
+          sourceMapFilename: 'assets/css/main.css.map',
           sourceMapRootpath: '/app/themes/roots/'
         }
       }
@@ -114,7 +114,7 @@ module.exports = function(grunt) {
     compass: {
       options: {
         sassDir: 'assets/sass',
-        cssDir: '.tmp/assets/css',
+        cssDir: 'assets/css',
         // CSS output mode. Can be: nested, expanded, compact, compressed.
         outputStyle: 'compressed',
         // TODO : figure out what's the use of the options below
@@ -145,7 +145,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'assets/css',
-          src: 'main.min.css',
+          src: 'main.css',
           dest: 'assets/css'
         }]
       }
@@ -177,7 +177,7 @@ module.exports = function(grunt) {
     version: {
       options: {
         file: 'lib/scripts.php',
-        css: 'assets/css/main.min.css',
+        css: 'assets/css/main.css',
         cssHandle: 'roots_main',
         js: 'assets/js/scripts.min.js',
         jsHandle: 'roots_scripts'
@@ -231,7 +231,7 @@ module.exports = function(grunt) {
           livereload: true
         },
         files: [
-          'assets/css/main.min.css',
+          'assets/css/main.css',
           'assets/js/scripts.min.js',
           'templates/*.php',
           '*.php'
@@ -245,8 +245,8 @@ module.exports = function(grunt) {
         // force is needed in case of deleting files outside the root directory
         force: true
       },
-      watch: [
-        'assets/css/main.min.css',
+      watch: [<% if (preproCss !== 'css') { %>
+        'assets/css/main.css',<% } %>
         'assets/js/scripts.min.js'
       ],
       dist: [
@@ -324,10 +324,10 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'clean:watch',<% if (useCoffee) { %>
     'coffee',<% } %>
-    'compile-css',
     'uglify',
-    'version',
-    'copy:initphp'
+    'compile-css',
+    'copy:initphp',
+    'version'
   ]);
 
   grunt.registerTask('dist', [

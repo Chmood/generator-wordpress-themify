@@ -59,11 +59,11 @@ WptGenerator.prototype.askFor = function askFor() {
     choices: [{
       name: 'Bootstrap',
       value: 'useBootstrap',
-      checked: false
+      checked: true
     }, {
       name: 'Autoprefixer',
       value: 'useAutoprefixer',
-      checked: false
+      checked: true
     }]
   },
   {
@@ -126,13 +126,31 @@ WptGenerator.prototype.app = function app() {
   this.mkdir('assets/js');
   this.mkdir('assets/img');
   this.mkdir('assets/fonts');
+
+  // Push modified php files
+  this.directory('.phpmod', '.phpmod');
+
+  // Populates less/sass directories
   if (this.preproCss === 'less') {
     this.directory('assets/less/', 'assets/less');
   } else if (this.preproCss === 'sass') {
     this.directory('assets/sass/', 'assets/sass');
-  }
-  this.directory('.phpmod', '.phpmod');
+  } else if (this.preproCss === 'css') {
+    if (this.useBootstrap) {
+      this.copy('assets/css/main-bootstrap.css', 'assets/css/main.css');
+    } else {
+      this.copy('assets/css/main.css', 'assets/css/main.css');
+    }
+  };
 
+  // Populates js directory
+  if (!this.useRequirejs) {
+    this.directory('assets/js/', 'assets/js');
+  } else {
+    this.directory('assets/js-requirejs/', 'assets/js');
+  }
+
+  // Processing template files
   this.template('_package.json', 'package.json');
   this.template('_bower.json', 'bower.json');
   this.template('_Gruntfile.js', 'Gruntfile.js');
