@@ -1,6 +1,12 @@
 {
   "name": "<%= _.slugify(themeName) %>",
   "version": "0.0.0",
+  "description": "A great Wordpress theme, based on WPT and Roots.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Chmood/generator-wpt.git"
+  },
+
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",

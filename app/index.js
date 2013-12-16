@@ -120,7 +120,6 @@ WptGenerator.prototype.askFor = function askFor() {
 
 WptGenerator.prototype.app = function app() {
   
-//  if (this.)
   this.mkdir('assets');
   this.mkdir('assets/css');
   this.mkdir('assets/js');
@@ -154,6 +153,7 @@ WptGenerator.prototype.app = function app() {
   this.template('_package.json', 'package.json');
   this.template('_bower.json', 'bower.json');
   this.template('_Gruntfile.js', 'Gruntfile.js');
+  this.template('_README.md', 'README.md');
   this.template('_style.css', 'style.css');
 };
 
