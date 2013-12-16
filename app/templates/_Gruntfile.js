@@ -197,38 +197,34 @@ module.exports = function(grunt) {
     // WATCH DAEMON
     // Automatic tasks
 
-    watch: {
-      // WARNING : this setup is highly acrobatic :
-      //  compiles BOTH lass AND sass on file change
-      //  you better comment out either less: or compass: section below
+    watch: {<% if (preproCss === 'less') { %>
       less: {
         files: [
           'assets/less/*.less',
           'assets/less/bootstrap/*.less'
         ],
         tasks: ['less', 'autoprefixer', 'version']
-      },
+      },<% } %><% if (preproCss === 'sass') { %>
       compass: {
         files: [
           'assets/sass/{,*/}*.{scss,sass}'
         ],
         tasks: ['compass', 'cssmin', 'autoprefixer', 'version']
-      },
-
+      },<% } %>
       js: {
         files: [
           '<%%= jshint.all %>'
         ],
         tasks: ['jshint', 'uglify', 'version']
-      },
+      },<% if (useTest) { %>
       jstest: {
           files: ['test/spec/{,*/}*.js'],
           tasks: ['test:watch']
-      },
+      },<% } %><% if (useCoffee) { %>
       coffee: {
         files: ['js/{,*/}*.{coffee,litcoffee,coffee.md}'],
         tasks: ['coffee:dist']
-      },
+      },<% } %>
       // Files that trigger a livereload event
       livereload: {
         options: {
