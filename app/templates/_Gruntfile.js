@@ -58,8 +58,10 @@ module.exports = function(grunt) {
             'bower_components/sass-bootstrap/js/tab.js',
             'bower_components/sass-bootstrap/js/affix.js',<% } %>
 
-            'assets/js/plugins/*.js',
-            'assets/js/_*.js'
+            // Your js code to be uglified. Order matters.
+            'assets/js/h5bpshim.js',<% if (useSampleJquery) { %>
+            'assets/js/plugins/jquery-plugin.js',<% } %>
+            'assets/js/app.js'
           ]
         },
         options: {

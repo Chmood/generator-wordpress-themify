@@ -172,6 +172,9 @@ WptGenerator.prototype.app = function app() {
   // Populates js directory
   if (!this.useRequirejs) {
     this.directory('assets/js/', 'assets/js');
+    if (this.useSampleJquery) {
+      this.directory('assets/js-sampleJquery/', 'assets/js');
+    }
   } else {
     this.directory('assets/js-requirejs/', 'assets/js');
   }
