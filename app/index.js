@@ -86,11 +86,11 @@ WptGenerator.prototype.askFor = function askFor() {
     choices: [{
       name: 'Jshint',
       value: 'useJshint',
-      checked: false
+      checked: true
     }, {
       name: 'Modernizr',
       value: 'useModernizr',
-      checked: false
+      checked: true
     }, {
       name: 'RequireJS',
       value: 'useRequirejs',
@@ -102,6 +102,10 @@ WptGenerator.prototype.askFor = function askFor() {
     }, {
       name: 'Unit-testing',
       value: 'useTest',
+      checked: false
+    }, {
+      name: 'Sample jQuery plugin',
+      value: 'useSampleJquery',
       checked: false
     }]
   }];
@@ -123,6 +127,7 @@ WptGenerator.prototype.askFor = function askFor() {
     this.useCoffee =        hasUse('js', 'useCoffee');
     this.useTest =          hasUse('js', 'useTest');
     this.useRequirejs =     hasUse('js', 'useRequirejs');
+    this.useSampleJquery =  hasUse('js', 'useSampleJquery');
 
     this.preproCss =        answers.preproCss;
     this.useBootstrap =     hasUse('css', 'useBootstrap');
@@ -143,7 +148,7 @@ WptGenerator.prototype.app = function app() {
 
   // Push modified php files
   if (this.starterTheme === 'roots') {
-    this.directory('.phpmod', '.phpmod');
+    this.template('.phpmod/lib/_scripts.php', '.phpmod/lib/scripts.php');
   } else if (this.starterTheme === 'none') {
     this.copy('index.php', 'index.php');
   }
