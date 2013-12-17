@@ -95,19 +95,19 @@ WptGenerator.prototype.askFor = function askFor() {
       name: 'Modernizr',
       value: 'useModernizr',
       checked: true
-    }, {
+    }/*, {
       name: 'RequireJS',
       value: 'useRequirejs',
       checked: false
-    }, {
+    }*/, {
       name: 'Coffeescript',
       value: 'useCoffee',
       checked: false
-    }, {
+    }/*, {
       name: 'Unit-testing',
       value: 'useTest',
       checked: false
-    }, {
+    }*/, {
       name: 'Sample jQuery plugin',
       value: 'useSampleJquery',
       checked: false
@@ -121,16 +121,18 @@ WptGenerator.prototype.askFor = function askFor() {
     // Hardcoded values for future features
     this.cssFramework =     'bootstrap';
     this.testFramework =    'mocha';
+    this.useRequirejs =     false;
+//    this.useRequirejs =     hasUse('js', 'useRequirejs');
+    this.useTest =          false;
+//    this.useTest =          hasUse('js', 'useTest');
 
-//    this.useJshint =        answers.useJs['useJshint'];
+    // Dumps answers to variables
     this.themeName =        answers.themeName;
     this.starterTheme =     answers.starterTheme;
 
     this.useJshint =        hasUse('js', 'useJshint');
     this.useModernizr =     hasUse('js', 'useModernizr');
     this.useCoffee =        hasUse('js', 'useCoffee');
-    this.useTest =          hasUse('js', 'useTest');
-    this.useRequirejs =     hasUse('js', 'useRequirejs');
     this.useSampleJquery =  hasUse('js', 'useSampleJquery');
 
     this.preproCss =        answers.preproCss;

@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         'assets/js/{,*/}*.js',
         '!assets/js/main.js'
-      ]
+      ] // TODO : jshint unit-tests
     },<% } %>
 <% if (!useRequirejs) { %>    // Uglify scripts
     uglify: {
@@ -81,16 +81,7 @@ module.exports = function(grunt) {
           dest: '.tmp/js',
           ext: '.js'
         }]
-      },
-      test: { // TODO : give love to coffee...
-        files: [{
-          expand: true,
-          cwd: 'test/spec',
-          src: '{,*/}*.{coffee,litcoffee,coffee.md}',
-          dest: '.tmp/spec',
-          ext: '.js'
-        }]
-      }
+      } // TODO : coffee unit-tests
     },<% } %>
 
     // CSS
