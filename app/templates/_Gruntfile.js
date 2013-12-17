@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -149,7 +149,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           '<%%= yeoman.dist %>/assets/css/main.css': [
-              'assets/css/main.css'
+            'assets/css/main.css'
           ]
         }
       }
@@ -166,8 +166,7 @@ module.exports = function(grunt) {
           cwd: 'assets/img',
           src: '{,*/}*.{gif,jpeg,jpg,png}',
           dest: '<%%= yeoman.dist %>/assets/img'
-        },
-        {
+        }, {
           expand: true,
           cwd: '.',
           src: '{,*/}*.{gif,jpeg,jpg,png}',
@@ -301,8 +300,7 @@ module.exports = function(grunt) {
             'lang/*.*',
             '*.php'
           ]
-        },
-        {
+        }, {
           expand: true,
           dot: true,
           cwd: '.phpmod',
@@ -328,9 +326,9 @@ module.exports = function(grunt) {
   grunt.registerTask('compile-css', [<% if (preproCss === 'less') { %>
     'less:app',<% } %><% if (preproCss === 'sass') { %>
     'compass:app',<% } %><% if (useAutoprefixer) { %>
-    'autoprefixer',<% } %>
+    'autoprefixer'<% } %>
   ]);
-  
+
   // Public tasks, called from grunt CLI
 
   grunt.registerTask('default', [
@@ -353,7 +351,7 @@ module.exports = function(grunt) {
     'cssmin',<% if (useImagemin) { %>
     'imagemin',
     'svgmin',<% } %><% if (useModernizr) { %>
-    'modernizr',<% } %>
+    'modernizr'<% } %>
   ]);
 <% if (starterTheme === 'roots') { %>
   grunt.registerTask('initphp', [
@@ -363,14 +361,14 @@ module.exports = function(grunt) {
   // Aliases
 
   grunt.registerTask('server', function () {
-      grunt.log.writeln('You can also use `watch` task.');
-      grunt.log.warn('`server` task will soon be deprecated !');
-      grunt.task.run(['watch']);
+    grunt.log.writeln('You can also use `watch` task.');
+    grunt.log.warn('`server` task will soon be deprecated !');
+    grunt.task.run(['watch']);
   });
 
   grunt.registerTask('build', function () {
-      grunt.log.writeln('You can also use `dist` task.');
-      grunt.task.run(['dist']);
+    grunt.log.writeln('You can also use `dist` task.');
+    grunt.task.run(['dist']);
   });
 
 
