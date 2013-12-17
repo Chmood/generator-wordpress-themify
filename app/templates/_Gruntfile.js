@@ -225,7 +225,7 @@ module.exports = function (grunt) {
         files: [
           '<%%= jshint.all %>'
         ],
-        tasks: ['jshint', 'uglify', 'version']
+        tasks: ['newer:jshint', 'uglify', 'version']
       },<% if (useTest) { %>
       jstest: {
           files: ['test/spec/{,*/}*.js'],
