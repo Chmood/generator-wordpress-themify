@@ -9,11 +9,11 @@ var WptGenerator = module.exports = function WptGenerator(args, options, config)
 
   this.on('end', function () {
     this.installDependencies({
-      skipInstall: options['skip-install'],
+      skipInstall: options['skip-install']
 
       // Copy roots' php files after bower install has been performed
       // http://stackoverflow.com/questions/19582786/yeoman-custom-generator-how-to-access-the-generated-project-in-the-dependencie
-      });
+    });
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -35,37 +35,34 @@ WptGenerator.prototype.askFor = function askFor() {
     name: 'themeName',
     message: 'What is the name of your theme?',
     default: 'My WPT theme'
-  },
-  {
+  }, {
     type: 'list',
     name: 'preproCss',
     message: 'Do you prefer sass, less, or just css?',
     choices: [{
       name: 'Sass',
-      value: 'sass',
+      value: 'sass'
     }, {
       name: 'Less',
-      value: 'less',
+      value: 'less'
     }, {
       name: 'CSS',
-      value: 'css',
+      value: 'css'
     }],
     default: 0
-  },
-  {
+  }, {
     type: 'list',
     name: 'starterTheme',
     message: 'Which Wordpress starter theme to use?',
     choices: [{
       name: 'Roots',
-      value: 'roots',
+      value: 'roots'
     }, {
       name: 'None',
-      value: 'none',
+      value: 'none'
     }],
     default: 0
-  },
-  {
+  }, {
     type: 'checkbox',
     name: 'css',
     message: 'Any CSS helper?',
@@ -82,8 +79,7 @@ WptGenerator.prototype.askFor = function askFor() {
       value: 'useImagemin',
       checked: true
     }]
-  },
-  {
+  }, {
     type: 'checkbox',
     name: 'js',
     message: 'What about javascript?',
@@ -95,7 +91,7 @@ WptGenerator.prototype.askFor = function askFor() {
       name: 'Modernizr',
       value: 'useModernizr',
       checked: true
-    }/*, {
+    }/*,{
       name: 'RequireJS',
       value: 'useRequirejs',
       checked: false
@@ -145,7 +141,7 @@ WptGenerator.prototype.askFor = function askFor() {
 };
 
 WptGenerator.prototype.app = function app() {
-  
+
   this.mkdir('assets');
   this.mkdir('assets/css');
   this.mkdir('assets/js');
@@ -193,7 +189,7 @@ WptGenerator.prototype.app = function app() {
 };
 
 WptGenerator.prototype.projectfiles = function projectfiles() {
-  this.copy('.gitignore', '.gitignore');
+  this.copy('gitignore', '.gitignore');
   this.copy('editorconfig', '.editorconfig');
   this.copy('jshintrc', '.jshintrc');
   this.copy('screenshot.png', 'screenshot.png');

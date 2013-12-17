@@ -336,7 +336,8 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('app', [
-    'clean:app',<% if (useCoffee) { %>
+    'clean:app',
+    'newer:jshint',<% if (useCoffee) { %>
     'coffee',<% } %>
     'uglify',
     'compile-css',<% if (starterTheme === 'roots') { %>
@@ -361,8 +362,8 @@ module.exports = function (grunt) {
   // Aliases
 
   grunt.registerTask('server', function () {
-    grunt.log.writeln('You can also use `watch` task.');
-    grunt.log.warn('`server` task will soon be deprecated !');
+    grunt.log.writeln('You should use `watch` task instead.');
+    grunt.log.warn('`server` will soon be deprecated !');
     grunt.task.run(['watch']);
   });
 
