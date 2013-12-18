@@ -95,11 +95,11 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
       name: 'RequireJS',
       value: 'useRequirejs',
       checked: false
-    }*/, {
+    }, {
       name: 'Coffeescript',
       value: 'useCoffee',
       checked: false
-    }/*, {
+    }, {
       name: 'Unit-testing',
       value: 'useTest',
       checked: false
@@ -121,6 +121,8 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
 //    this.useRequirejs =     hasUse('js', 'useRequirejs');
     this.useTest =          false;
 //    this.useTest =          hasUse('js', 'useTest');
+    this.useCoffee =        false;
+//    this.useCoffee =        hasUse('js', 'useCoffee');
 
     // Dumps answers to variables
     this.themeName =        answers.themeName;
@@ -128,7 +130,6 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
 
     this.useJshint =        hasUse('js', 'useJshint');
     this.useModernizr =     hasUse('js', 'useModernizr');
-    this.useCoffee =        hasUse('js', 'useCoffee');
     this.useSampleJquery =  hasUse('js', 'useSampleJquery');
 
     this.preproCss =        answers.preproCss;
