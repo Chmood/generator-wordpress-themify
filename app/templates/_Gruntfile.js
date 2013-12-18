@@ -323,7 +323,7 @@ module.exports = function (grunt) {
             'assets/js/vendor/{,*/}*.js'
           ]
         }]
-      },
+      }<% if (starterTheme === 'roots') { %>,
       initphp: {
         files: [{
           expand: true,
@@ -347,7 +347,7 @@ module.exports = function (grunt) {
             '*.php'
           ]
         }]
-      }
+      }<% } %>
     }
 
   });
@@ -370,6 +370,10 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'dist'
   ]);
+<% if (starterTheme === 'roots') { %>
+  grunt.registerTask('init', [
+    'copy:initphp'
+  ]);<% } %>
 
   grunt.registerTask('app', [
     'clean:app',<% if (useJshint) { %>
@@ -377,7 +381,6 @@ module.exports = function (grunt) {
     'coffee',<% } %>
     'uglify',
     'compile-css',<% if (starterTheme === 'roots') { %>
-    'copy:initphp',
     'version'<% } %>
   ]);
 
