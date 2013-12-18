@@ -49,7 +49,7 @@ WptGenerator.prototype.askFor = function askFor() {
       name: 'CSS',
       value: 'css'
     }],
-    default: 2
+    default: 0
   }, {
     type: 'list',
     name: 'starterTheme',
@@ -61,7 +61,7 @@ WptGenerator.prototype.askFor = function askFor() {
       name: 'None',
       value: 'none'
     }],
-    default: 1
+    default: 0
   }, {
     type: 'checkbox',
     name: 'css',
@@ -69,15 +69,15 @@ WptGenerator.prototype.askFor = function askFor() {
     choices: [{
       name: 'Bootstrap',
       value: 'useBootstrap',
-      checked: false
+      checked: true
     }, {
       name: 'Autoprefixer',
       value: 'useAutoprefixer',
-      checked: false
+      checked: true
     }, {
       name: 'Minify images',
       value: 'useImagemin',
-      checked: false
+      checked: true
     }]
   }, {
     type: 'checkbox',
@@ -86,11 +86,11 @@ WptGenerator.prototype.askFor = function askFor() {
     choices: [{
       name: 'Jshint',
       value: 'useJshint',
-      checked: false
+      checked: true
     }, {
       name: 'Modernizr',
       value: 'useModernizr',
-      checked: false
+      checked: true
     }/*,{
       name: 'RequireJS',
       value: 'useRequirejs',
