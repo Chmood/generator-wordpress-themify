@@ -3,9 +3,9 @@
 
 var assert = require('assert');
 
-describe('wpt generator', function () {
-    it('can be imported without blowing up', function () {
-        var app = require('../app');
-        assert(app !== undefined);
-    });
+describe('wordpress-themify generator', function () {
+  it('can be imported without blowing up', function () {
+    var app = require('../app');
+    assert(app !== undefined);
+  });
 });

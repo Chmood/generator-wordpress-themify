@@ -1,5 +1,5 @@
 {
-  "name": "generator-wpt",
+  "name": "generator-wordpress-themify",
   "version": "0.0.1",
   "description": "A generator for Yeoman",
   "keywords": [
@@ -15,12 +15,12 @@
     "email": "giethlen.nicolas@gmail.com",
     "url": "https://github.com/Chmood"
   },
-  "homepage": "https://github.com/Chmood/generator-wpt",
-  "bugs": "https://github.com/Chmood/generator-wpt/issues",
+  "homepage": "https://github.com/Chmood/generator-wordpress-themify",
+  "bugs": "https://github.com/Chmood/generator-wordpress-themify/issues",
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Chmood/generator-wpt.git"
+    "url": "git://github.com/Chmood/generator-wordpress-themify.git"
   },
   "licenses": [{
     "type": "MIT",
@@ -42,10 +42,5 @@
   "engines": {
     "node": ">=0.8.0",
     "npm": ">=1.2.10"
-  },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
-  ]
+  }
 }

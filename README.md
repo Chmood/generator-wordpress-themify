@@ -1,4 +1,4 @@
-# generator-wpt [![Build Status](https://secure.travis-ci.org/Chmood/generator-wpt.png?branch=master)](https://travis-ci.org/Chmood/generator-wpt)
+# generator-wordpress-themify
 
 Wordpress Theme generator for [Yeoman](http://yeoman.io).
 
@@ -35,16 +35,16 @@ $ npm install -g yo
 
 Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
 
-To install generator-wpt from npm, run:
+To install generator-wordpress-themify from npm, run:
 
 ```
-$ npm install -g generator-wpt
+$ npm install -g generator-wordpress-themify
 ```
 
 Finally, initiate the generator:
 
 ```
-$ yo wpt
+$ yo wordpress-themify
 ```
 
 ### Getting To Know Yeoman

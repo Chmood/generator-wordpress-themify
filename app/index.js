@@ -4,7 +4,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var fs = require('fs');
 
-var WptGenerator = module.exports = function WptGenerator(args, options, config) {
+var WordpressThemifyGenerator = module.exports = function WordpressThemifyGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
   this.on('end', function () {
@@ -21,20 +21,20 @@ var WptGenerator = module.exports = function WptGenerator(args, options, config)
   // TODO : command line option for parsing a json config file
 };
 
-util.inherits(WptGenerator, yeoman.generators.Base);
+util.inherits(WordpressThemifyGenerator, yeoman.generators.Base);
 
-WptGenerator.prototype.askFor = function askFor() {
+WordpressThemifyGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   // have Yeoman greet the user.
   console.log(this.yeoman);
-  console.log(this.pkg.name + ' generator');
-  console.log('Out of the box I include... nothing! (YOU include things)');
+  console.log(this.pkg.name + ' generator - v' + this.pkg.version);
+  console.log('Out of the box I include... nothing! YOU include things.');
 
   var prompts = [{
     name: 'themeName',
     message: 'What is the name of your theme?',
-    default: 'My WPT theme'
+    default: 'My Wordpress-themify theme'
   }, {
     type: 'list',
     name: 'preproCss',
@@ -140,7 +140,7 @@ WptGenerator.prototype.askFor = function askFor() {
   }.bind(this));
 };
 
-WptGenerator.prototype.app = function app() {
+WordpressThemifyGenerator.prototype.app = function app() {
 
   this.mkdir('assets');
   this.mkdir('assets/css');
@@ -149,7 +149,7 @@ WptGenerator.prototype.app = function app() {
   if (this.useSampleJquery) {
     this.mkdir('assets/js/plugins');
   }
-  
+
   // Push modified php files
   if (this.starterTheme === 'roots') {
     this.template('.phpmod/lib/_scripts.php', '.phpmod/lib/scripts.php');
@@ -199,7 +199,7 @@ WptGenerator.prototype.app = function app() {
   this.template('_style.css', 'style.css');
 };
 
-WptGenerator.prototype.projectfiles = function projectfiles() {
+WordpressThemifyGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('gitignore', '.gitignore');
   this.copy('editorconfig', '.editorconfig');
   this.copy('jshintrc', '.jshintrc');

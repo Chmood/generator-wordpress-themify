@@ -8,7 +8,7 @@
   App.prototype.init = function () {
 <% if (useSampleJquery) { %>
     $('h1').jQueryPlugin();<% } %>
-    console.log('Welcome to WPT!');
+    console.log('Welcome to Wordpress-themify!');
   };
 
   $(document).ready(function () {

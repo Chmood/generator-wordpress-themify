@@ -10,7 +10,7 @@
     <div class="jumbotron">
       <h1> Welcome to WPT!<h1>
     </div><% } %><% if (!useBootstrap) { %>
-    <h1> Welcome to WPT!<h1><% } %>
+    <h1> Welcome to Wordpress-themify!<h1><% } %>
 
     <script src="<?php bloginfo( 'template_url' ); ?>/assets/js/main.js"></script>
   </body>
