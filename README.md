@@ -23,7 +23,10 @@ Mostly based on [Roots](https://github.com/roots/roots) starter theme.
 All features are optional, take only what you need!
 
 
-## Quick startup
+## Quick start
+
+
+### Tools installation
 
 (Assuming you already have node installed properly)
 
@@ -32,6 +35,8 @@ Install software (needs admin rights) :
 ```
 npm install -g yo generator-wordpress-themify
 ```
+
+### Theme creation
 
 Browse to your wordpress theme folder. Something like :
 
@@ -51,22 +56,27 @@ Install your theme and configure options :
 yo wordpress-themify
 ```
 
-If you choose to use Roots starter theme, initialize it :
-(This step shouldn't be necessary in the future.)
+### Theme activation
+
+Once the installation finished, you still need to initialize the theme.
 
 ```
 grunt init
 ```
+It will fetch Roots' php files, plus run the first 'compilation' of your source files.
+You only need to run ```grunt init``` once, after what you can safely delete the hidden .phpmod directory.
+(I'm still looking for a better solution)
+
+In wordpress admin pannel, go to Appearance > Themes. Activate the development version of your theme. Browse to your site, and eventually turn on your browser's livereload plugin now.
+
+
+### Workflow
 
 Start watching for file change
 
 ```
 grunt watch
 ```
-
-
-In wordpress admin pannel, go to Appearance > Themes. Activate the development version of your theme. Browse to your site, and eventually activate your browser's livereload plugin now.
-
 
 Now you're set up, start coding the magic!
 
@@ -77,7 +87,8 @@ Once you're done, build an optimized production theme :
 grunt
 ```
 And then switch wordpress to the production theme.
-(But do keep a copy of the dev theme!)
+(But do keep a copy of the developent files!)
+
 
 Have fun!
 

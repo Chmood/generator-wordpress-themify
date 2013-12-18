@@ -11,7 +11,7 @@ var WordpressThemifyGenerator = module.exports = function WordpressThemifyGenera
     this.installDependencies({
       skipInstall: options['skip-install']
 
-      // Copy roots' php files after bower install has been performed
+      // First attempt to get php files from bower_components/roots copied in project...
       // http://stackoverflow.com/questions/19582786/yeoman-custom-generator-how-to-access-the-generated-project-in-the-dependencie
     });
   });
@@ -147,14 +147,20 @@ WordpressThemifyGenerator.prototype.app = function app() {
   this.mkdir('assets/css');
   this.mkdir('assets/js');
   this.mkdir('assets/fonts');
+  if (this.starterTheme === 'roots') {
+    this.mkdir('lib');
+    this.mkdir('templates');
+    this.mkdir('lang');
+  }
   if (this.useSampleJquery) {
     this.mkdir('assets/js/plugins');
   }
 
-  // Push modified php files
   if (this.starterTheme === 'roots') {
-    this.template('.phpmod/lib/_scripts.php', '.phpmod/lib/scripts.php');
+    // Push modified php files
+    this.template('phpmod/lib/_scripts.php', '.phpmod/lib/scripts.php');
   } else if (this.starterTheme === 'none') {
+    // A static index.php (so the theme is visible by wordpress)
     this.template('_index.php', 'index.php');
   }
 
@@ -206,3 +212,38 @@ WordpressThemifyGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('jshintrc', '.jshintrc');
   this.copy('screenshot.png', 'screenshot.png');
 };
+
+// Second attempt to get PHP files copied
+// Working, BUT raises an overwrite prompt for overwriting modified files
+// https://github.com/yeoman/generator/issues/303
+/*
+WordpressThemifyGenerator.prototype.rootsPhpFiles = function rootsPhpFiles() {
+  var cb   = this.async(),
+      self = this;
+
+  if (this.starterTheme === 'roots') {
+    this.remote('roots', 'roots', '6.5.1', function (err, remote) {
+      if (err) { return cb(err) }
+
+      remote.directory('lib', 'lib');
+      remote.directory('templates', 'templates');
+      remote.directory('lang', 'lang');
+      // Loosy : need someting like './*.php'
+      remote.copy('404.php', '404.php');
+      remote.copy('base.php', 'base.php');
+      remote.copy('functions.php', 'functions.php');
+      remote.copy('index.php', 'index.php');
+      remote.copy('page.php', 'page.php');
+      remote.copy('single.php', 'single.php');
+      remote.copy('template-custom.php', 'template-custom.php');
+      // Overwrite with modified files
+      self.template('phpmod/lib/_scripts.php', 'lib/scripts.php');
+      // I don't want my users to have a warning on fresh install!
+      cb();
+    })
+  }
+  else {
+    cb();
+  }
+}
+*/

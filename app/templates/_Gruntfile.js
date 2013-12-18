@@ -370,11 +370,19 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'dist'
   ]);
-<% if (starterTheme === 'roots') { %>
-  grunt.registerTask('init', [
-    'copy:initphp'
-  ]);<% } %>
 
+  grunt.registerTask('init', [<% if (starterTheme === 'roots') { %>
+    'copy:initphp',<% } %>
+    'app'
+  ]);
+
+  // Watch task
+  grunt.registerTask('watch', [
+    'app',
+    'watch'
+  ]);
+
+  // Building the app version
   grunt.registerTask('app', [
     'clean:app',<% if (useJshint) { %>
     'jshint',<% } %><% if (useCoffee) { %>
@@ -384,6 +392,7 @@ module.exports = function (grunt) {
     'version'<% } %>
   ]);
 
+  // Building the dist version
   grunt.registerTask('dist', [
     'app',
     'clean:dist',
