@@ -3,8 +3,8 @@
 (function ($) {
 
   $(document).ready(function () {
-
-    $('h1').jQueryPlugin();
+<% if (useSampleJquery) { %>
+    $('h1').jQueryPlugin();<% } %>
 
     console.log('Welcome to WPT!');
   });

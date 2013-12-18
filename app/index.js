@@ -49,7 +49,7 @@ WptGenerator.prototype.askFor = function askFor() {
       name: 'CSS',
       value: 'css'
     }],
-    default: 0
+    default: 2
   }, {
     type: 'list',
     name: 'starterTheme',
@@ -61,7 +61,7 @@ WptGenerator.prototype.askFor = function askFor() {
       name: 'None',
       value: 'none'
     }],
-    default: 0
+    default: 1
   }, {
     type: 'checkbox',
     name: 'css',
@@ -69,15 +69,15 @@ WptGenerator.prototype.askFor = function askFor() {
     choices: [{
       name: 'Bootstrap',
       value: 'useBootstrap',
-      checked: true
+      checked: false
     }, {
       name: 'Autoprefixer',
       value: 'useAutoprefixer',
-      checked: true
+      checked: false
     }, {
       name: 'Minify images',
       value: 'useImagemin',
-      checked: true
+      checked: false
     }]
   }, {
     type: 'checkbox',
@@ -86,11 +86,11 @@ WptGenerator.prototype.askFor = function askFor() {
     choices: [{
       name: 'Jshint',
       value: 'useJshint',
-      checked: true
+      checked: false
     }, {
       name: 'Modernizr',
       value: 'useModernizr',
-      checked: true
+      checked: false
     }/*,{
       name: 'RequireJS',
       value: 'useRequirejs',
@@ -146,12 +146,15 @@ WptGenerator.prototype.app = function app() {
   this.mkdir('assets/css');
   this.mkdir('assets/js');
   this.mkdir('assets/fonts');
-
+  if (this.useSampleJquery) {
+    this.mkdir('assets/js/plugins');
+  }
+  
   // Push modified php files
   if (this.starterTheme === 'roots') {
     this.template('.phpmod/lib/_scripts.php', '.phpmod/lib/scripts.php');
   } else if (this.starterTheme === 'none') {
-    this.copy('index.php', 'index.php');
+    this.template('_index.php', 'index.php');
   }
 
   // Populates less/sass directories
@@ -160,15 +163,23 @@ WptGenerator.prototype.app = function app() {
   } else if (this.preproCss === 'sass') {
     this.directory('assets/sass/', 'assets/sass');
   } else if (this.preproCss === 'css') {
-    if (this.useBootstrap) {
-      this.copy('assets/css/main-bootstrap.css', 'assets/css/main.css');
+    if (!this.useAutoprefixer) {
+      this.template('assets/css/_main.css', 'assets/css/main.css');
     } else {
-      this.copy('assets/css/main.css', 'assets/css/main.css');
+      this.template('assets/css/_app.css', 'assets/css/app.css');
     }
   }
 
   // Populates js directory
   if (!this.useRequirejs) {
+    this.template('assets/js/_app.js', 'assets/js/app.js');
+    if (this.useSampleJquery) {
+      this.copy('assets/js/plugins/jquery-plugin.js', 'assets/js/plugins/jquery-plugin.js');
+    }
+  } else {
+    this.directory('assets/js-requirejs/', 'assets/js');
+  }
+/*  if (!this.useRequirejs) {
     this.directory('assets/js/', 'assets/js');
     if (this.useSampleJquery) {
       this.directory('assets/js-sampleJquery/', 'assets/js');
@@ -176,7 +187,7 @@ WptGenerator.prototype.app = function app() {
   } else {
     this.directory('assets/js-requirejs/', 'assets/js');
   }
-
+*/
   // Put on some sample images
   this.directory('assets/img/', 'assets/img');
 

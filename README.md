@@ -6,11 +6,11 @@ Wordpress Theme generator for [Yeoman](http://yeoman.io).
 
 * Bootstrap, in both Less and Sass versions
 * [Roots](https://github.com/roots/roots) starter theme
-* Modernizr (with custom build task)
-* RequireJS, plus some sample files
+* Modernizr (with custom build task) 
+* TODO RequireJS, plus some sample files
 * CSS autoprefixer
 * True 'dist' folder for optimized builds
-* Imagemin and svgmin support
+* Image minification support
 
 All features are optional, take only what you need!
 

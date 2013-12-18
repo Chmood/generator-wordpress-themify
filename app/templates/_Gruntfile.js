@@ -85,7 +85,6 @@ module.exports = function (grunt) {
     },<% } %>
 
     // CSS
-    // TODO : simple css case
 <% if (preproCss === 'less') { %>   // Less compilation
     less: {
       app: {
@@ -129,7 +128,7 @@ module.exports = function (grunt) {
         }
       }
     },<% } %>
-<% if (useAutoprefixer) { %>    // CSS-autoprefixer
+<% if (useAutoprefixer && (preproCss !== 'css')) { %>    // CSS-autoprefixer
     autoprefixer: {
       options: {
         browsers: ['last 1 version']
@@ -140,6 +139,17 @@ module.exports = function (grunt) {
           cwd: 'assets/css',
           src: 'main.css',
           dest: 'assets/css'
+        }]
+      }
+    },<% } %><% if (useAutoprefixer && (preproCss === 'css')) { %>    // CSS-autoprefixer
+    autoprefixer: {
+      options: {
+        browsers: ['last 1 version']
+      },
+      app: {
+        files: [{
+          src: 'assets/css/app.css',
+          dest: 'assets/css/main.css'
         }]
       }
     },<% } %>
@@ -213,21 +223,45 @@ module.exports = function (grunt) {
           'assets/less/*.less',
           'assets/less/bootstrap/*.less'
         ],
-        tasks: ['less', 'autoprefixer', 'version']
+        tasks: [
+          'less',<% if (useAutoprefixer) { %>
+          'autoprefixer',<% } %><% if (starterTheme === 'roots') { %>
+          'version'<% } %>
+        ]
       },<% } %><% if (preproCss === 'sass') { %>
       compass: {
         files: [
           'assets/sass/{,*/}*.{scss,sass}'
         ],
-        tasks: ['compass', 'autoprefixer', 'version']
+        tasks: [
+          'compass',<% if (useAutoprefixer) { %>
+          'autoprefixer',<% } %><% if (starterTheme === 'roots') { %>
+          'version'<% } %>
+        ]
+      },<% } %><% if (preproCss === 'css') { %>
+      css: {
+        files: [
+          'assets/css/{,*/}*.css',
+          '!assets/css/main.css'
+        ],
+        tasks: [<% if (useAutoprefixer) { %>
+          'autoprefixer',<% } %><% if (starterTheme === 'roots') { %>
+          'version'<% } %>
+        ]
       },<% } %>
       js: {
         files: [
-          '<%%= jshint.all %>'
+          'Gruntfile.js',
+          'assets/js/{,*/}*.js',
+          '!assets/js/main.js'
         ],
-        tasks: ['newer:jshint', 'uglify', 'version']
+        tasks: [<% if (useJshint) { %>
+          'newer:jshint',<% } %>
+          'uglify',<% if (starterTheme === 'roots') { %>
+          'version'<% } %>
+        ]
       },<% if (useTest) { %>
-      jstest: {
+      jstest: { // TODO
           files: ['test/spec/{,*/}*.js'],
           tasks: ['test:watch']
       },<% } %><% if (useCoffee) { %>
@@ -242,10 +276,11 @@ module.exports = function (grunt) {
         },
         files: [
           'assets/css/main.css',
-          'assets/js/main.js',<% if (starterTheme === 'roots') { %>
+          'assets/js/main.js',
+          'assets/img/{,*/}*.{png,jpg,jpeg,gif,svg,webp}',<% if (starterTheme === 'roots') { %>
           'templates/*.php',
-          'lib/*.php',
-          '*.php'<% } %>
+          'lib/*.php',<% } %>
+          '*.php'
         ]
       }
     },
@@ -276,7 +311,8 @@ module.exports = function (grunt) {
           src: [
             'style.css',
             '*.{ico,png,txt}',
-            'assets/img/{,*/}*.webp',
+            'assets/img/{,*/}*.webp',<% if (!useImagemin) { %>
+            'assets/img/{,*/}*.{png,jpg,jpeg,gif,svg}',<% } %>
             'bower_components/sass-bootstrap/fonts/*.*',
             'bower_components/jquery/jquery.min.js',
             'screenshot.{png/jpg/jpeg}',
@@ -336,8 +372,8 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('app', [
-    'clean:app',
-    'newer:jshint',<% if (useCoffee) { %>
+    'clean:app',<% if (useJshint) { %>
+    'jshint',<% } %><% if (useCoffee) { %>
     'coffee',<% } %>
     'uglify',
     'compile-css',<% if (starterTheme === 'roots') { %>
@@ -371,6 +407,5 @@ module.exports = function (grunt) {
     grunt.log.writeln('You can also use `dist` task.');
     grunt.task.run(['dist']);
   });
-
 
 };
