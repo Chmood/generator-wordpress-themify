@@ -5,6 +5,7 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
+  // Will maybe switch to conditionnal task loading : https://github.com/gruntjs/grunt/issues/975#issuecomment-29058707
 
   grunt.initConfig({
 

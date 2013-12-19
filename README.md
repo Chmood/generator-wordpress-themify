@@ -1,7 +1,9 @@
 # generator-wordpress-themify
 
 Wordpress Theme generator for [Yeoman](http://yeoman.io).
-Mostly based on [Roots](https://github.com/roots/roots) starter theme.
+Mostly based on popular [Roots](https://github.com/roots/roots) starter theme.
+
+(Still WIP, please use with caution)
 
 
 ## Features
@@ -9,16 +11,9 @@ Mostly based on [Roots](https://github.com/roots/roots) starter theme.
 * Bootstrap, in Less, Sass or plain css version
 * Modernizr (with custom optimized build) 
 * CSS autoprefixer
-* True 'dist' folder for production use
 * Image minification
-* Some boilerplate exemple files
-
-### TODO
-
-* Coffeescript
-* Unit testing
-* RequireJS
-
+* True 'dist' folder for production use
+* Some sample example files
 
 All features are optional, take only what you need!
 
@@ -29,7 +24,6 @@ All features are optional, take only what you need!
 ### Tools installation
 
 (Assuming you already have node installed properly)
-
 Install software (needs admin rights) :
 
 ```
@@ -87,13 +81,21 @@ Once you're done, build an optimized production theme :
 grunt
 ```
 And then switch wordpress to the production theme.
-(But do keep a copy of the developent files!)
+(But do keep a copy of the development files!)
 
 
 Have fun!
 
 
+### TODO
 
+* Coffeescript
+* Unit testing
+* RequireJS
+
+* fix the php files copying routine
+* add a .tmp folder (and usemin)
+* add an options.js config file
 
 
 ## License
