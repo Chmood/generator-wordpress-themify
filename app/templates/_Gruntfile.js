@@ -34,6 +34,7 @@ module.exports = function (grunt) {
       app: {
         files: {
           'assets/js/main.js': [<% if (useBootstrap && (preproCss === 'less' || preproCss === 'css')) { %>
+            // Here you can choose which boostrap's plugins to include
             'bower_components/bootstrap/js/transition.js',
             'bower_components/bootstrap/js/alert.js',
             'bower_components/bootstrap/js/button.js',
@@ -46,6 +47,7 @@ module.exports = function (grunt) {
             'bower_components/bootstrap/js/scrollspy.js',
             'bower_components/bootstrap/js/tab.js',
             'bower_components/bootstrap/js/affix.js',<% } %><% if (useBootstrap && preproCss === 'sass') { %>
+            // Here you can choose which boostrap's plugins to include
             'bower_components/sass-bootstrap/js/transition.js',
             'bower_components/sass-bootstrap/js/alert.js',
             'bower_components/sass-bootstrap/js/button.js',
@@ -68,7 +70,7 @@ module.exports = function (grunt) {
         options: {
           // JS source map: to enable, uncomment the lines below and update sourceMappingURL based on your install
           // sourceMap: 'assets/js/main.js.map',
-          // sourceMappingURL: '/app/themes/roots/assets/js/main.js.map'
+          // sourceMappingURL: '/app/themes/<%= _.slugify(themeName) %>/assets/js/main.js.map'
         }
       }
     },<% } %>

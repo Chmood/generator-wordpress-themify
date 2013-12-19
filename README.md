@@ -87,16 +87,6 @@ And then switch wordpress to the production theme.
 Have fun!
 
 
-### TODO
-
-* Coffeescript
-* Unit testing
-* RequireJS
-
-* fix the php files copying routine
-* add a .tmp folder (and usemin)
-* add an options.js config file
-
 
 ## License
 
