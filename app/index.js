@@ -119,6 +119,7 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
     this.testFramework =    'mocha';
     this.useRequirejs =     false;
 //    this.useRequirejs =     hasUse('js', 'useRequirejs');
+// http://kaidez.com/requirejs-wordpress/
     this.useTest =          false;
 //    this.useTest =          hasUse('js', 'useTest');
     this.useCoffee =        false;

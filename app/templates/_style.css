@@ -2,7 +2,7 @@
 Theme Name:         <%= themeName %>
 Theme URI:          <%= pkg.homepage %>
 Description:        A great Wordpress theme, based on <a href="https://github.com/roots/roots">WPT</a> and <a href="http://root.io">Roots</a>.
-Version:            <%= pkg.version %>
+Version:            <%= pkg.version %>  (development)
 Author:             <%= pkg.author.name %>
 Author URI:         <%= pkg.author.url %>
 

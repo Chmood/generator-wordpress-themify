@@ -309,7 +309,6 @@ module.exports = function (grunt) {
           cwd: '.',
           dest: '<%%= yeoman.dist %>',
           src: [
-            'style.css',
             '*.{ico,png,txt}',
             'assets/img/{,*/}*.webp',<% if (!useImagemin) { %>
             'assets/img/{,*/}*.{png,jpg,jpeg,gif,svg}',<% } %>
@@ -348,6 +347,20 @@ module.exports = function (grunt) {
           ]
         }]
       }<% } %>
+    },
+
+    'string-replace': {
+      dist: {
+        files: {
+          '<%%= yeoman.dist %>/style.css': 'style.css'
+        },
+        options: {
+          replacements: [{
+            pattern: '(development)',
+            replacement: '(production)'
+          }]
+        }
+      }
     }
 
   });
@@ -400,7 +413,8 @@ module.exports = function (grunt) {
     'cssmin',<% if (useImagemin) { %>
     'imagemin',
     'svgmin',<% } %><% if (useModernizr) { %>
-    'modernizr'<% } %>
+    'modernizr',<% } %>
+    'string-replace'
   ]);
 <% if (starterTheme === 'roots') { %>
   grunt.registerTask('initphp', [
