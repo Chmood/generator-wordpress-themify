@@ -1,8 +1,8 @@
 /*!
  * Roots 6.5.1
  */
-
-@import "bootstrap.less";
+<% if (useBootstrap) { %>
+@import "bootstrap.less";<% } %>
 
 /*  ==========================================================================
     Base
@@ -78,13 +78,11 @@ body { }
 figure.alignnone { margin-left: 0; margin-right: 0; }
 
 
-
+<% if (useBootstrap) { %>
 /*  ==========================================================================
     Media Queries
     ========================================================================== */
 
 @media (min-width: @screen-sm-min) { }
-
 @media (min-width: @screen-md-min) { }
-
-@media (min-width: @screen-lg-min) { }
+@media (min-width: @screen-lg-min) { }<% } %>

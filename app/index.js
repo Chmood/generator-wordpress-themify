@@ -166,9 +166,17 @@ WordpressThemifyGenerator.prototype.app = function app() {
 
   // Populates less/sass directories
   if (this.preproCss === 'less') {
-    this.directory('assets/less/', 'assets/less');
+    this.template('assets/less/main.less.tmpl', 'assets/less/main.less');
+    if (this.useBootstrap) {
+      this.copy('assets/less/bootstrap.less', 'assets/less/bootstrap.less');
+      this.copy('assets/less/variables.less', 'assets/less/variables.less');
+    }
   } else if (this.preproCss === 'sass') {
-    this.directory('assets/sass/', 'assets/sass');
+    this.template('assets/sass/main.scss.tmpl', 'assets/sass/main.scss');
+    if (this.useBootstrap) {
+      this.copy('assets/sass/_bootstrap.scss', 'assets/sass/_bootstrap.scss');
+      this.copy('assets/sass/_variables.scss', 'assets/sass/_variables.scss');
+    }
   } else if (this.preproCss === 'css') {
     if (!this.useAutoprefixer) {
       this.template('assets/css/_main.css', 'assets/css/main.css');
