@@ -6,7 +6,8 @@
   };
 
   App.prototype.init = function () {
-<% if (useSampleJquery) { %>
+
+    $('h1').css('color', '#f08');<% if (useSampleJquery) { %>
     $('h1').jQueryPlugin();<% } %>
     console.log('Welcome to Wordpress-themify!');
   };

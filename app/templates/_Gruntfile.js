@@ -3,9 +3,8 @@ module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
-  // Load grunt tasks automatically
+  // Load grunt tasks automagically
   require('load-grunt-tasks')(grunt);
-  // Will maybe switch to conditionnal task loading : https://github.com/gruntjs/grunt/issues/975#issuecomment-29058707
 
   grunt.initConfig({
 
@@ -86,7 +85,41 @@ module.exports = function (grunt) {
         }]
       } // TODO : coffee unit-tests
     },<% } %>
-
+<% if (useTest && useTestConnect) { %>   // Server for tests
+    connect: {
+      test: {
+        options: {
+          port: 9001,
+          // Change this to '0.0.0.0' to access the server from outside
+          hostname: 'localhost',
+          base: [
+            '.',
+            'test'
+          ]
+        }
+      }
+    },<% } %>
+<% if (useTest && testFramework === 'mocha') { %>
+    // Mocha testing framework configuration options
+    mocha: {
+      all: {<% if (!useTestConnect) { %>
+        src: ['test/*.html'],<% } %>
+        options: {
+          run: true<% if (useTestConnect) { %>,
+          urls: ['http://<%%= connect.test.options.hostname %>:<%%= connect.test.options.port %>/index.html']<% } %>
+        }
+      }
+    },
+<% } else if (useTest && testFramework === 'jasmine') { %>
+    // Jasmine testing framework configuration options
+    // TODO : Jasmine
+    jasmine: {
+      all: {
+        options: {
+          specs: 'test/spec/{,*/}*.js'
+        }
+      }
+    },<% } %>
     // CSS
 <% if (preproCss === 'less') { %>   // Less compilation
     less: {
@@ -259,14 +292,19 @@ module.exports = function (grunt) {
           '!assets/js/main.js'
         ],
         tasks: [<% if (useJshint) { %>
-          'newer:jshint',<% } %>
+          'newer:jshint',<% } %><% if (useTest && testFramework === 'mocha') { %>
+          'mocha',<% } else if (useTest && testFramework === 'jasmine') { %>
+          'jasmine'<% } %>
           'uglify',<% if (starterTheme === 'roots') { %>
           'version'<% } %>
         ]
       },<% if (useTest) { %>
-      jstest: { // TODO
-          files: ['test/spec/{,*/}*.js'],
-          tasks: ['test:watch']
+      jstest: {
+        files: ['test/spec/{,*/}*.js'],
+        tasks: [<% if (testFramework === 'mocha') { %>
+          'mocha'<% } else if (testFramework === 'jasmine') { %>
+          'jasmine'<% } %>
+        ]
       },<% } %><% if (useCoffee) { %>
 //      coffee: {
 //        files: ['js/{,*/}*.{coffee,litcoffee,coffee.md}'],
@@ -381,7 +419,8 @@ module.exports = function (grunt) {
     'autoprefixer'<% } %>
   ]);
 
-  // Public tasks, called from grunt CLI
+
+  // Public tasks
 
   grunt.registerTask('default', [
     'dist'
@@ -393,10 +432,7 @@ module.exports = function (grunt) {
   ]);
 
   // Watch task
-  grunt.registerTask('watch', [
-    'app',
-    'watch'
-  ]);
+  // Doesn't need to be registered, using the initConfig
 
   // Building the app version
   grunt.registerTask('app', [
@@ -409,8 +445,9 @@ module.exports = function (grunt) {
   ]);
 
   // Building the dist version
-  grunt.registerTask('dist', [
-    'app',
+  grunt.registerTask('dist', [<% if (useTest) { %>
+    'test',<% } else { %>
+    'app',<% } %>
     'clean:dist',
     'copy:dist',
     'cssmin',<% if (useImagemin) { %>
@@ -419,10 +456,14 @@ module.exports = function (grunt) {
     'modernizr',<% } %>
     'string-replace'
   ]);
-<% if (starterTheme === 'roots') { %>
-  grunt.registerTask('initphp', [
-    'copy:initphp'
+<% if (useTest) { %>
+  grunt.registerTask('test', [
+    'app',<% if (useTestConnect) { %>
+    'connect:test',<% } %><% if (testFramework === 'mocha') { %>
+    'mocha'<% } else if (testFramework === 'jasmine') { %>
+    'jasmine'<% } %>
   ]);<% } %>
+
 
   // Aliases
 

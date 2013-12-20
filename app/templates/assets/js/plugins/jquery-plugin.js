@@ -25,7 +25,7 @@
     this.options  = $.extend({}, JQueryPlugin.DEFAULTS, options);
 
     // Do something with element
-    this.$element.css('background-color', 'gray');
+    this.$element.css('border-bottom', '4px solid');
   };
 
   // Define the plugin defaults

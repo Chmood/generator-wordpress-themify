@@ -7,15 +7,6 @@ var fs = require('fs');
 var WordpressThemifyGenerator = module.exports = function WordpressThemifyGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
-  this.on('end', function () {
-    this.installDependencies({
-      skipInstall: options['skip-install']
-
-      // First attempt to get php files from bower_components/roots copied in project...
-      // http://stackoverflow.com/questions/19582786/yeoman-custom-generator-how-to-access-the-generated-project-in-the-dependencie
-    });
-  });
-
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 
   // TODO : command line option for parsing a json config file
@@ -28,7 +19,7 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
 
   // have Yeoman greet the user.
   console.log(this.yeoman);
-  console.log(this.pkg.name + ' generator - v' + this.pkg.version);
+  console.log(this.pkg.name + ' - v' + this.pkg.version);
   console.log('Out of the box I include... nothing! YOU include things.');
 
   var prompts = [{
@@ -99,11 +90,11 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
       name: 'Coffeescript',
       value: 'useCoffee',
       checked: false
-    }, {
-      name: 'Unit-testing',
-      value: 'useTest',
-      checked: false
     }*/, {
+      name: 'Mocha unit-testing',
+      value: 'useTest',
+      checked: true
+    }, {
       name: 'Sample jQuery plugin',
       value: 'useSampleJquery',
       checked: false
@@ -117,11 +108,9 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
     // Hardcoded values for future features
     this.cssFramework =     'bootstrap';
     this.testFramework =    'mocha';
+    this.useTestConnect =   false;
     this.useRequirejs =     false;
 //    this.useRequirejs =     hasUse('js', 'useRequirejs');
-// http://kaidez.com/requirejs-wordpress/
-    this.useTest =          false;
-//    this.useTest =          hasUse('js', 'useTest');
     this.useCoffee =        false;
 //    this.useCoffee =        hasUse('js', 'useCoffee');
 
@@ -131,6 +120,7 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
 
     this.useJshint =        hasUse('js', 'useJshint');
     this.useModernizr =     hasUse('js', 'useModernizr');
+    this.useTest =          hasUse('js', 'useTest');
     this.useSampleJquery =  hasUse('js', 'useSampleJquery');
 
     this.preproCss =        answers.preproCss;
@@ -148,24 +138,46 @@ WordpressThemifyGenerator.prototype.app = function app() {
   this.mkdir('assets/css');
   this.mkdir('assets/js');
   this.mkdir('assets/fonts');
+
+  // PHP
+
   if (this.starterTheme === 'roots') {
     this.mkdir('lib');
     this.mkdir('templates');
     this.mkdir('lang');
-  }
-  if (this.useSampleJquery) {
-    this.mkdir('assets/js/plugins');
-  }
-
-  if (this.starterTheme === 'roots') {
     // Push modified php files
     this.template('phpmod/lib/_scripts.php', '.phpmod/lib/scripts.php');
-  } else if (this.starterTheme === 'none') {
+  }
+  else if (this.starterTheme === 'none') {
     // A static index.php (so the theme is visible by wordpress)
     this.template('_index.php', 'index.php');
   }
 
-  // Populates less/sass directories
+  // Javascript
+  // Populates js directory
+  if (!this.useRequirejs) {
+    this.template('assets/js/_app.js', 'assets/js/app.js');
+    if (this.useSampleJquery) {
+      this.copy('assets/js/plugins/jquery-plugin.js', 'assets/js/plugins/jquery-plugin.js');
+    }
+  } else {
+    this.directory('assets/js-requirejs/', 'assets/js');
+  }
+
+  // Sample jQuery plugin
+  if (this.useSampleJquery) {
+    this.mkdir('assets/js/plugins');
+  }
+
+  if (this.useTest) {
+//    this.mkdir('test');
+    this.directory( 'test/lib', 'test/lib');  // TODO : get mocha.js, mocha.css and chai.js from remote / bower_components
+    this.template('test/_index.html', 'test/index.html');
+    this.template('test/spec/_test.js', 'test/spec/test.js');
+  }
+
+
+  // CSS
   if (this.preproCss === 'less') {
     this.template('assets/less/main.less.tmpl', 'assets/less/main.less');
     if (this.useBootstrap) {
@@ -186,24 +198,6 @@ WordpressThemifyGenerator.prototype.app = function app() {
     }
   }
 
-  // Populates js directory
-  if (!this.useRequirejs) {
-    this.template('assets/js/_app.js', 'assets/js/app.js');
-    if (this.useSampleJquery) {
-      this.copy('assets/js/plugins/jquery-plugin.js', 'assets/js/plugins/jquery-plugin.js');
-    }
-  } else {
-    this.directory('assets/js-requirejs/', 'assets/js');
-  }
-/*  if (!this.useRequirejs) {
-    this.directory('assets/js/', 'assets/js');
-    if (this.useSampleJquery) {
-      this.directory('assets/js-sampleJquery/', 'assets/js');
-    }
-  } else {
-    this.directory('assets/js-requirejs/', 'assets/js');
-  }
-*/
   // Put on some sample images
   this.directory('assets/img/', 'assets/img');
 
