@@ -4,7 +4,7 @@
 
 Coffeescript
 
-> Needs a .tmp or a coffee folder
+> http://js2coffee.org/
 
 RequireJS
 

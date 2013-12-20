@@ -22,11 +22,32 @@ module.exports = function (grunt) {
         jshintrc: '.jshintrc',
         reporter: require('jshint-stylish')
       },
-      all: [
-        'Gruntfile.js',
-        'assets/js/{,*/}*.js',
+      app: [
+        'Gruntfile.js',<% if (!useCoffee) { %>
+        'assets/js/{,*/}*.js',<% } %>
         '!assets/js/main.js'
-      ] // TODO : jshint unit-tests
+      ]<% if (useTest && !useCoffee) { %>,
+      test: [
+        'test/spec/*.js'
+      ]<% } %>
+    },<% } %>
+<% if (useCoffee) { %>
+    coffeelint: {
+      options: {
+        // TODO : Find a way to dump .coffeelintrc
+        'max_line_length': {
+          name: 'max_line_length',
+          value: 80,
+          level: 'warn',
+          limitComments: true
+        }
+      },
+      app: [
+        'assets/coffee/{,*/}*.{coffee,litcoffee,coffee.md}'
+      ]<% if (useTest) { %>,
+      test: [
+        'test/spec/*.{coffee,litcoffee,coffee.md}'
+      ]<% } %>
     },<% } %>
 <% if (!useRequirejs) { %>    // Uglify scripts
     uglify: {
@@ -75,15 +96,30 @@ module.exports = function (grunt) {
     },<% } %>
 <% if (useCoffee) { %>    // Compiles CoffeeScript to JavaScript
     coffee: {
-      dist: {
+      options: {
+        bare: true,
+        join: false,
+        sourceMap: false,
+        separator: '\n'
+      },
+      app: {
         files: [{
           expand: true,
-          cwd: 'js',
+          cwd: 'assets/coffee',
           src: '{,*/}*.{coffee,litcoffee,coffee.md}',
-          dest: '.tmp/js',
+          dest: 'assets/js',
           ext: '.js'
         }]
-      } // TODO : coffee unit-tests
+      }<% if (useTest) { %>,
+      test: {
+        files: [{
+          expand: true,
+          cwd: 'test/spec/coffee',
+          src: '*.{coffee,litcoffee,coffee.md}',
+          dest: 'test/spec',
+          ext: '.js'
+        }]
+      }<% } %>
     },<% } %>
 <% if (useTest && useTestConnect) { %>   // Server for tests
     connect: {
@@ -288,29 +324,46 @@ module.exports = function (grunt) {
       },<% } %>
       js: {
         files: [
-          'Gruntfile.js',
-          'assets/js/{,*/}*.js',
+          'Gruntfile.js',<% if (!useCoffee) { %>
+          'assets/js/{,*/}*.js',<% } %>
           '!assets/js/main.js'
         ],
         tasks: [<% if (useJshint) { %>
-          'newer:jshint',<% } %><% if (useTest && testFramework === 'mocha') { %>
+          'newer:jshint:app',<% } %><% if (useTest && testFramework === 'mocha') { %>
           'mocha',<% } else if (useTest && testFramework === 'jasmine') { %>
-          'jasmine'<% } %>
-          'uglify',<% if (starterTheme === 'roots') { %>
+          'jasmine',<% } %>
+          'uglify'<% if (starterTheme === 'roots') { %>,
           'version'<% } %>
         ]
-      },<% if (useTest) { %>
+      },<% if (useTest && !useCoffee) { %>
       jstest: {
         files: ['test/spec/{,*/}*.js'],
-        tasks: [<% if (testFramework === 'mocha') { %>
-          'mocha'<% } else if (testFramework === 'jasmine') { %>
+        tasks: [<% if (useJshint) { %>
+          'newer:jshint:test'<% } %><% if (testFramework === 'mocha') { %>,
+          'mocha'<% } else if (testFramework === 'jasmine') { %>,
           'jasmine'<% } %>
         ]
       },<% } %><% if (useCoffee) { %>
-//      coffee: {
-//        files: ['js/{,*/}*.{coffee,litcoffee,coffee.md}'],
-//        tasks: ['coffee:dist']
-//      },<% } %>
+      coffee: {
+        files: ['assets/coffee/{,*/}*.{coffee,litcoffee,coffee.md}'],
+        tasks: [<% if (useJshint) { %>
+          'newer:coffeelint:app',<% } %><% if (useTest && testFramework === 'mocha') { %>
+          'mocha',<% } else if (useTest && testFramework === 'jasmine') { %>
+          'jasmine',<% } %>
+          'newer:coffee:app',
+          'uglify'<% if (starterTheme === 'roots') { %>,
+          'version'<% } %>
+        ]
+      }<% if (useTest) { %>,
+      coffeetest: {
+        files: ['test/spec/coffee/*.{coffee,litcoffee,coffee.md}'],
+        tasks: [
+          'newer:coffeelint:test',
+          'coffee:test',<% if (testFramework === 'mocha') { %>
+          'mocha'<% } else if (testFramework === 'jasmine') { %>
+          'jasmine'<% } %>
+        ]
+      },<% } %><% } %>
       // Files that trigger a livereload event
       livereload: {
         options: {
@@ -420,6 +473,25 @@ module.exports = function (grunt) {
     'autoprefixer'<% } %>
   ]);
 
+  // Building the app version
+  grunt.registerTask('app', [
+    'clean:app',<% if (useJshint) { %>
+    'jshint',<% } %><% if (useCoffee) { %>
+    'coffeelint',
+    'coffee',<% } %>
+    'uglify',
+    'compile-css',<% if (starterTheme === 'roots') { %>
+    'version'<% } %>
+  ]);
+<% if (useTest) { %>
+  // Unit-testing the app
+  grunt.registerTask('test', [<% if (useTestConnect) { %>
+    'connect:test',<% } %>
+    'app',<% if (testFramework === 'mocha') { %>
+    'mocha'<% } else if (testFramework === 'jasmine') { %>
+    'jasmine'<% } %>
+  ]);<% } %>
+
 
   // Public tasks
 
@@ -439,16 +511,6 @@ module.exports = function (grunt) {
     'watch'
   ]);
 
-  // Building the app version
-  grunt.registerTask('app', [
-    'clean:app',<% if (useJshint) { %>
-    'jshint',<% } %><% if (useCoffee) { %>
-    'coffee',<% } %>
-    'uglify',
-    'compile-css',<% if (starterTheme === 'roots') { %>
-    'version'<% } %>
-  ]);
-
   // Building the dist version
   grunt.registerTask('dist', [<% if (useTest) { %>
     'test',<% } else { %>
@@ -461,14 +523,6 @@ module.exports = function (grunt) {
     'modernizr',<% } %>
     'string-replace'
   ]);
-<% if (useTest) { %>
-  grunt.registerTask('test', [
-    'app',<% if (useTestConnect) { %>
-    'connect:test',<% } %><% if (testFramework === 'mocha') { %>
-    'mocha'<% } else if (testFramework === 'jasmine') { %>
-    'jasmine'<% } %>
-  ]);<% } %>
-
 
   // Aliases
 

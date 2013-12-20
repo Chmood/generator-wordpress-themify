@@ -86,18 +86,18 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
       name: 'RequireJS',
       value: 'useRequirejs',
       checked: false
-    }, {
+    }*/, {
       name: 'Coffeescript',
       value: 'useCoffee',
-      checked: false
-    }*/, {
+      checked: true
+    }, {
       name: 'Mocha unit-testing',
       value: 'useTest',
       checked: true
     }, {
       name: 'Sample jQuery plugin',
       value: 'useSampleJquery',
-      checked: false
+      checked: true
     }]
   }];
 
@@ -111,8 +111,6 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
     this.useTestConnect =   true;
     this.useRequirejs =     false;
 //    this.useRequirejs =     hasUse('js', 'useRequirejs');
-    this.useCoffee =        false;
-//    this.useCoffee =        hasUse('js', 'useCoffee');
 
     // Dumps answers to variables
     this.themeName =        answers.themeName;
@@ -120,6 +118,7 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
 
     this.useJshint =        hasUse('js', 'useJshint');
     this.useModernizr =     hasUse('js', 'useModernizr');
+    this.useCoffee =        hasUse('js', 'useCoffee');
     this.useTest =          hasUse('js', 'useTest');
     this.useSampleJquery =  hasUse('js', 'useSampleJquery');
 
@@ -156,24 +155,30 @@ WordpressThemifyGenerator.prototype.app = function app() {
   // Javascript
   // Populates js directory
   if (!this.useRequirejs) {
-    this.template('assets/js/_app.js', 'assets/js/app.js');
-    if (this.useSampleJquery) {
-      this.copy('assets/js/plugins/jquery-plugin.js', 'assets/js/plugins/jquery-plugin.js');
+    if (!this.useCoffee) {
+      this.template('assets/js/_app.js', 'assets/js/app.js');
+      if (this.useSampleJquery) {
+        this.copy('assets/js/plugins/jquery-plugin.js', 'assets/js/plugins/jquery-plugin.js');
+      }
+    } else {
+      this.template('assets/coffee/_app.coffee', 'assets/coffee/app.coffee');
+      if (this.useSampleJquery) {
+        this.copy('assets/coffee/plugins/jquery-plugin.coffee', 'assets/coffee/plugins/jquery-plugin.coffee');
+      }
     }
   } else {
-    this.directory('assets/js-requirejs/', 'assets/js');
-  }
-
-  // Sample jQuery plugin
-  if (this.useSampleJquery) {
-    this.mkdir('assets/js/plugins');
+//    TODO : RequireJS skeleton
   }
 
   if (this.useTest) {
 //    this.mkdir('test');
     this.directory( 'test/lib', 'test/lib');  // TODO : get mocha.js, mocha.css and chai.js from remote / bower_components
     this.template('test/_index.html', 'test/index.html');
-    this.template('test/spec/_test.js', 'test/spec/test.js');
+    if (!this.useCoffee) {
+      this.template('test/spec/_test.js', 'test/spec/test.js');
+    } else {
+      this.template('test/spec/coffee/_test.coffee', 'test/spec/coffee/test.coffee');
+    }
   }
 
 
@@ -213,6 +218,9 @@ WordpressThemifyGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('gitignore', '.gitignore');
   this.copy('editorconfig', '.editorconfig');
   this.copy('jshintrc', '.jshintrc');
+  if (this.useCoffee) {
+    this.copy('coffeelintrc', '.coffeelintrc');
+  }
   this.copy('screenshot.png', 'screenshot.png');
 };
 
