@@ -108,7 +108,7 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
     // Hardcoded values for future features
     this.cssFramework =     'bootstrap';
     this.testFramework =    'mocha';
-    this.useTestConnect =   false;
+    this.useTestConnect =   true;
     this.useRequirejs =     false;
 //    this.useRequirejs =     hasUse('js', 'useRequirejs');
     this.useCoffee =        false;

@@ -3,12 +3,12 @@
 (function ($) {
 
   before(function () {<% if (useSampleJquery) { %>
-    $('body').append('<h1 class="test">jQuery plugin test</h1>');
+    $('body').append('<h1 class="wpt-test"> </h1>');
     $('h1.test').jQueryPlugin();<% } %>
   });
 
   after(function () {<% if (useSampleJquery) { %>
-    $('h1.test').remove();<% } %>
+    $('h1.wpt-test').remove();<% } %>
   });
 
   describe('<%= themeName %> unit tests', function () {
@@ -24,11 +24,11 @@
     describe('Testing jquery-plugin.js', function () {
 
       it('should be initialized', function () {
-        expect($('h1.test').data('ns.jQueryPlugin')).to.be.a('object');
+        expect($('h1.wpt-test').data('ns.jQueryPlugin')).to.be.a('object');
       });
 
       it('should make h1 border-bottomed', function () {
-        expect($('h1.test').css('border-bottom-width') === '4px').to.be.true;
+        expect($('h1.wpt-test').css('border-bottom-width') === '4px').to.be.true;
       });
     });<% } %>
   });

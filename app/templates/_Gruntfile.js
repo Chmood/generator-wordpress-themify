@@ -91,6 +91,7 @@ module.exports = function (grunt) {
         options: {
           port: 9001,
           // Change this to '0.0.0.0' to access the server from outside
+          livereload: 35729,
           hostname: 'localhost',
           base: [
             '.',
@@ -432,7 +433,11 @@ module.exports = function (grunt) {
   ]);
 
   // Watch task
-  // Doesn't need to be registered, using the initConfig
+  grunt.registerTask('serve', [
+    'app',
+    'connect:test',
+    'watch'
+  ]);
 
   // Building the app version
   grunt.registerTask('app', [
