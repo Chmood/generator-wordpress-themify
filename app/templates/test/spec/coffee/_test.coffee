@@ -3,7 +3,7 @@
 (($) ->
   before -><% if (useSampleJquery) { %>
     $("body").append "<h1 class=\"wpt-test\"> </h1>"
-    $("h1.test").jQueryPlugin()<% } %>
+    $("h1.wpt-test").jQueryPlugin()<% } %>
 
   after -><% if (useSampleJquery) { %>
     $("h1.wpt-test").remove()<% } %>

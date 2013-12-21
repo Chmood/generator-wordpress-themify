@@ -293,13 +293,12 @@ module.exports = function (grunt) {
     watch: {<% if (preproCss === 'less') { %>
       less: {
         files: [
-          'assets/less/*.less',
-          'assets/less/bootstrap/*.less'
+          'assets/less/{,*/}*.less'
         ],
         tasks: [
           'less',<% if (useAutoprefixer) { %>
-          'autoprefixer',<% } %><% if (starterTheme === 'roots') { %>
-          'version'<% } %>
+          'newer:autoprefixer',<% } %><% if (starterTheme === 'roots') { %>
+          'newer:version'<% } %>
         ]
       },<% } %><% if (preproCss === 'sass') { %>
       compass: {
@@ -308,8 +307,8 @@ module.exports = function (grunt) {
         ],
         tasks: [
           'compass',<% if (useAutoprefixer) { %>
-          'autoprefixer',<% } %><% if (starterTheme === 'roots') { %>
-          'version'<% } %>
+          'newer:autoprefixer',<% } %><% if (starterTheme === 'roots') { %>
+          'newer:version'<% } %>
         ]
       },<% } %><% if (preproCss === 'css') { %>
       css: {
@@ -318,22 +317,26 @@ module.exports = function (grunt) {
           '!assets/css/main.css'
         ],
         tasks: [<% if (useAutoprefixer) { %>
-          'autoprefixer',<% } %><% if (starterTheme === 'roots') { %>
-          'version'<% } %>
+          'newer:autoprefixer',<% } %><% if (starterTheme === 'roots') { %>
+          'newer:version'<% } %>
         ]
       },<% } %>
+      gruntfile: {
+        files: ['Gruntfile.js'],
+        tasks: ['newer:jshint:app']
+      },
       js: {
-        files: [
-          'Gruntfile.js',<% if (!useCoffee) { %>
+        files: [<% if (!useCoffee) { %>
           'assets/js/{,*/}*.js',<% } %>
           '!assets/js/main.js'
         ],
         tasks: [<% if (useJshint) { %>
-          'newer:jshint:app',<% } %><% if (useTest && testFramework === 'mocha') { %>
+          'newer:jshint:app',<% } %>
+          'newer:uglify',<% if (useTest && testFramework === 'mocha') { %>
           'mocha',<% } else if (useTest && testFramework === 'jasmine') { %>
           'jasmine',<% } %>
           'uglify'<% if (starterTheme === 'roots') { %>,
-          'version'<% } %>
+          'newer:version'<% } %>
         ]
       },<% if (useTest && !useCoffee) { %>
       jstest: {
@@ -352,14 +355,14 @@ module.exports = function (grunt) {
           'mocha',<% } else if (useTest && testFramework === 'jasmine') { %>
           'jasmine',<% } %>
           'uglify'<% if (starterTheme === 'roots') { %>,
-          'version'<% } %>
+          'newer:version'<% } %>
         ]
-      }<% if (useTest) { %>,
+      },<% if (useTest) { %>
       coffeetest: {
         files: ['test/spec/coffee/*.{coffee,litcoffee,coffee.md}'],
         tasks: [
           'newer:coffeelint:test',
-          'coffee:test',<% if (testFramework === 'mocha') { %>
+          'newer:coffee:test',<% if (testFramework === 'mocha') { %>
           'mocha'<% } else if (testFramework === 'jasmine') { %>
           'jasmine'<% } %>
         ]
@@ -439,18 +442,18 @@ module.exports = function (grunt) {
 
   // Internal tasks, usually not called from grunt CLI
 
-  // Compiles sass/less files to CSS
+  // Compiles sass/less files to CSS and add vendor prefixes
   grunt.registerTask('compile-css', [<% if (preproCss === 'less') { %>
-    'newer:less:app',<% } %><% if (preproCss === 'sass') { %>
-    'newer:compass:app',<% } %><% if (useAutoprefixer) { %>
+    'less:app',<% } %><% if (preproCss === 'sass') { %>
+    'compass:app',<% } %><% if (useAutoprefixer) { %>
     'newer:autoprefixer'<% } %>
   ]);
 
 <% if (useTest) { %>
   // Unit-testing the app
-  grunt.registerTask('test', [<% if (useTestConnect) { %>
-    'connect:test',<% } %>
-    'app',<% if (testFramework === 'mocha') { %>
+  grunt.registerTask('test', [
+    'app',<% if (useTestConnect) { %>
+    'connect:test',<% } %><% if (testFramework === 'mocha') { %>
     'mocha'<% } else if (testFramework === 'jasmine') { %>
     'jasmine'<% } %>
   ]);<% } %>
@@ -464,8 +467,8 @@ module.exports = function (grunt) {
 
   // Watch task
   grunt.registerTask('serve', [
-    'app',
-    'connect:test',
+    'app',<% if (useTest) { %>
+    'connect:test',<% } %>
     'watch'
   ]);
 

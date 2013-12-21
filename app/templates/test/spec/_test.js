@@ -6,7 +6,7 @@
 
   before(function () {<% if (useSampleJquery) { %>
     $('body').append('<h1 class="wpt-test"> </h1>');
-    $('h1.test').jQueryPlugin();<% } %>
+    $('h1.wpt-test').jQueryPlugin();<% } %>
   });
 
   after(function () {<% if (useSampleJquery) { %>

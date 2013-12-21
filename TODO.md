@@ -30,9 +30,11 @@ Drop load-grunt-task in favor of conditional loading
 ## To fix
 
 * Boostrap's menu collapse plugin malfunction
+* Damn FOUC when livereloading sass/less!
 * Fix mocha tests to look nice in browser (plus jquery-plugin test refuse to work without app.js loaded)
 * Find how to write a test on app.js (no global from the anonymous IIFE)
 * Figure out why to explicitely call installDependencies (there was no need before adding coffee support)
+* newer:compass and newer:less stopped working
 
 
 ## Known issues

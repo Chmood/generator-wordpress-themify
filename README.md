@@ -1,7 +1,6 @@
 # generator-wordpress-themify
 
 A modular Wordpress theme generator for [Yeoman](http://yeoman.io).
-
 Mostly based on popular [Roots](https://github.com/roots/roots) starter theme, plus inspiration from the mighty generator-webapp.
 
 (Still in early stage, please use with caution! See the [TODO](https://github.com/Chmood/generator-wordpress-themify/blob/master/TODO.md) to see what's going on.)
@@ -61,7 +60,7 @@ Once the installation finished, you still need to initialize the theme.
 grunt app
 ```
 It will run the first compilation of your source files.
-Run ```grunt app``` anytime you want to compile your development theme, in case you don't user ```grunt serve``` (see below).
+Run ```grunt app``` anytime you want to compile your development theme, in case you don't use ```grunt serve``` (see below).
 
 In wordpress admin pannel, go to Appearance > Themes. Activate the development version of your theme. Browse to your site, and eventually turn on your browser's livereload plugin now.
 
@@ -74,9 +73,9 @@ Start watching for file change
 grunt serve
 ```
 
-Now you're set up, start coding the magic!
+Now you're all set up, start building a great theme!
 
-(When using unit-tests, you can also browse to http://127.0.0.1:9001 where tests report will be live-reloaded)
+When using unit-tests, you can also browse to http://127.0.0.1:9001 where tests report will be live-reloaded
 
 Once you're done, build an optimized production theme :
 (You can set the destination folder in Gruntfile.js)
@@ -87,7 +86,7 @@ grunt dist
 (You can also just use ```grunt```.)
 
 
-And then switch wordpress to use the production theme.
+And then switch wordpress to use this production theme.
 (But do keep a copy of the development files!)
 
 

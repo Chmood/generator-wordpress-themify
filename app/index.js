@@ -86,11 +86,11 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
 		}, {
 			name: 'Coffeescript',
 			value: 'useCoffee',
-			checked: true
+			checked: false
 		}, {
 			name: 'Mocha unit-testing',
 			value: 'useTest',
-			checked: true
+			checked: false
 		}, {
 			name: 'Sample jQuery plugin',
 			value: 'useSampleJquery',
