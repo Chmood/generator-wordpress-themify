@@ -7,6 +7,7 @@ var yeoman = require('yeoman-generator');
 var WordpressThemifyGenerator = module.exports = function WordpressThemifyGenerator(args, options, config) {
 	yeoman.generators.Base.apply(this, arguments);
 
+	this.options = options;
 	this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 
 	// TODO : command line option for parsing a json config file
@@ -211,17 +212,29 @@ WordpressThemifyGenerator.prototype.app = function app() {
 };
 
 WordpressThemifyGenerator.prototype.projectfiles = function projectfiles() {
+	this.copy('screenshot.png', 'screenshot.png');
 	this.copy('gitignore', '.gitignore');
 	this.copy('editorconfig', '.editorconfig');
 	this.copy('jshintrc', '.jshintrc');
 	if (this.useCoffee) {
 		this.copy('coffeelintrc', '.coffeelintrc');
 	}
-	this.copy('screenshot.png', 'screenshot.png');
 };
 
+WordpressThemifyGenerator.prototype.install = function () {
+	if (this.options['skip-install']) {
+		return;
+	}
+
+	var done = this.async();
+	this.installDependencies({
+		skipMessage: this.options['skip-install-message'],
+		skipInstall: this.options['skip-install'],
+		callback: done
+	});
+};
 // Second attempt to get PHP files copied
-// Working, BUT raises an overwrite prompt for overwriting modified files
+// Working, BUT raises an warning prompt to confirm overwriting modified files
 // https://github.com/yeoman/generator/issues/303
 /*
 WordpressThemifyGenerator.prototype.rootsPhpFiles = function rootsPhpFiles() {
