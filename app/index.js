@@ -233,21 +233,56 @@ WordpressThemifyGenerator.prototype.remoteChai = function remoteChai() {
 	}
 };
 
+WordpressThemifyGenerator.prototype.remoteRoots = function remoteRoots() {
+	var cb   = this.async(),
+			self = this;
 
-
-WordpressThemifyGenerator.prototype.php = function php() {
 	if (this.starterTheme === 'roots') {
-		this.mkdir('lib');
-		this.mkdir('templates');
-		this.mkdir('lang');
-		// Push modified php files
-		this.template('phpmod/lib/_scripts.php', '.phpmod/lib/scripts.php');
+		// TODO : hardcoded Roots version (unable to JSON.parse() our _bower.json)
+		this.remote('roots', 'roots', '6.5.1', function (err, remote) {
+			if (err) { return cb(err); }
+
+			// Unchanged directories
+			remote.directory('templates', 'templates');
+			remote.directory('lang', 'lang');
+
+			// Perfectly absurd enumeration to avoid having to overwrite scripts.php
+			remote.copy('lib/activation.php', 'lib/activation.php');
+			remote.copy('lib/comments.php', 'lib/comments.php');
+			remote.copy('lib/config.php', 'lib/config.php');
+			remote.copy('lib/cleanup.php', 'lib/cleanup.php');
+			remote.copy('lib/custom.php', 'lib/custom.php');
+			remote.copy('lib/gallery.php', 'lib/gallery.php');
+			remote.copy('lib/init.php', 'lib/init.php');
+			remote.copy('lib/nav.php', 'lib/nav.php');
+			remote.copy('lib/relative-urls.php', 'lib/relative-urls.php');
+			//remote.copy('lib/scripts.php', 'lib/scripts.php');
+			remote.copy('lib/sidebar.php', 'lib/sidebar.php');
+			remote.copy('lib/titles.php', 'lib/titles.php');
+			remote.copy('lib/utils.php', 'lib/utils.php');
+			remote.copy('lib/widgets.php', 'lib/widgets.php');
+			remote.copy('lib/wrapper.php', 'lib/wrapper.php');
+
+			// Loosy : need someting like './*.php'
+			remote.copy('404.php', '404.php');
+			remote.copy('base.php', 'base.php');
+			remote.copy('functions.php', 'functions.php');
+			remote.copy('index.php', 'index.php');
+			remote.copy('page.php', 'page.php');
+			remote.copy('single.php', 'single.php');
+			remote.copy('template-custom.php', 'template-custom.php');
+
+			// Overwrite Roots modified files
+			self.template('phpmod/lib/_scripts.php', 'lib/scripts.php');
+			// I don't want the user to have a warning on fresh install!
+			cb();
+		});
 	}
 	else if (this.starterTheme === 'none') {
 		// A static index.php (so the theme is visible by wordpress)
 		this.template('_index.php', 'index.php');
+		cb();
 	}
-
 };
 
 WordpressThemifyGenerator.prototype.projectfiles = function projectfiles() {
@@ -281,38 +316,3 @@ WordpressThemifyGenerator.prototype.install = function () {
 		callback: done
 	});
 };
-
-// Second attempt to get PHP files copied
-// Working, BUT raises an warning prompt to confirm overwriting modified files
-// https://github.com/yeoman/generator/issues/303
-/*
-WordpressThemifyGenerator.prototype.rootsPhpFiles = function rootsPhpFiles() {
-	var cb   = this.async(),
-			self = this;
-
-	if (this.starterTheme === 'roots') {
-		this.remote('roots', 'roots', '6.5.1', function (err, remote) {
-			if (err) { return cb(err); }
-
-			remote.directory('lib', 'lib');
-			remote.directory('templates', 'templates');
-			remote.directory('lang', 'lang');
-			// Loosy : need someting like './*.php'
-			remote.copy('404.php', '404.php');
-			remote.copy('base.php', 'base.php');
-			remote.copy('functions.php', 'functions.php');
-			remote.copy('index.php', 'index.php');
-			remote.copy('page.php', 'page.php');
-			remote.copy('single.php', 'single.php');
-			remote.copy('template-custom.php', 'template-custom.php');
-			// Overwrite with modified files
-			self.template('phpmod/lib/_scripts.php', 'lib/scripts.php');
-			// I don't want my users to have a warning on fresh install!
-			cb();
-		});
-	}
-	else {
-		cb();
-	}
-};
-*/

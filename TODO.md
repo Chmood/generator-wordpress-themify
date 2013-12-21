@@ -29,17 +29,10 @@ Drop load-grunt-task in favor of conditional loading
 
 ## To fix
 
-Boostrap's menu collapse plugin malfunction
-
-Fix the php files copying routine
-
-> Already tried hard copying with [http://stackoverflow.com/questions/19582786/yeoman-custom-generator-how-to-access-the-generated-project-in-the-dependencie](this trick). Also gave a try to remote.copy(), raises a warning because of [https://github.com/yeoman/generator/issues/303](this overwriting issue).
-
-Fix mocha tests to look nice in browser (plus jquery-plugin test refuse to work without app.js loaded)
-
-How to write a test on app.js? (no global from the anonymous IIFE)
-
-Figure out why to explicitely call installDependencies (there was no need before adding coffee support)
+* Boostrap's menu collapse plugin malfunction
+* Fix mocha tests to look nice in browser (plus jquery-plugin test refuse to work without app.js loaded)
+* Find how to write a test on app.js (no global from the anonymous IIFE)
+* Figure out why to explicitely call installDependencies (there was no need before adding coffee support)
 
 
 ## Known issues

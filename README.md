@@ -58,11 +58,10 @@ yo wordpress-themify
 Once the installation finished, you still need to initialize the theme.
 
 ```
-grunt init
+grunt app
 ```
-It will fetch Roots' php files, plus run the first 'compilation' of your source files.
-You only need to run ```grunt init``` once, after what you can safely delete the hidden .phpmod directory. NEVER run ```grunt init``` during development, as it would overwrite your modified PHP files!
-(I'm still investigating for a better solution)
+It will run the first compilation of your source files.
+Run ```grunt app``` anytime you want to compile your development theme, in case you don't user ```grunt serve``` (see below).
 
 In wordpress admin pannel, go to Appearance > Themes. Activate the development version of your theme. Browse to your site, and eventually turn on your browser's livereload plugin now.
 

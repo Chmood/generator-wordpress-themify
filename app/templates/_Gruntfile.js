@@ -402,42 +402,19 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             'assets/img/{,*/}*.webp',<% if (!useImagemin) { %>
-            'assets/img/{,*/}*.{png,jpg,jpeg,gif,svg}',<% } %>
-            'bower_components/sass-bootstrap/fonts/*.*',
+            'assets/img/{,*/}*.{png,jpg,jpeg,gif,svg}',<% } %><% if (useBootstrap && preproCss === 'sass') { %>
+            'bower_components/sass-bootstrap/fonts/*.*',<% } %><% if (useBootstrap && preproCss !== 'sass') { %>
+            'bower_components/bootstrap/dist/fonts/*.*',<% } %>
             'bower_components/jquery/jquery.min.js',
             'screenshot.{png/jpg/jpeg}',
             '{,*/}*.php',
             'lang/*.*',
             'assets/fonts/*.*',
-            'assets/js/main.js',
+            'assets/js/main.js',  // TODO !!!
             'assets/js/vendor/{,*/}*.js'
           ]
         }]
-      }<% if (starterTheme === 'roots') { %>,
-      initphp: {
-        files: [{
-          expand: true,
-          dot: true,
-          cwd: 'bower_components/roots',
-          dest: '.',
-          src: [
-            'templates/*.php',
-            'lib/*.php',
-            'lang/*.*',
-            '*.php'
-          ]
-        }, {
-          expand: true,
-          dot: true,
-          cwd: '.phpmod',
-          dest: '.',
-          src: [
-            'templates/*.php',
-            'lib/*.php',
-            '*.php'
-          ]
-        }]
-      }<% } %>
+      }
     },
 
     'string-replace': {
@@ -469,15 +446,6 @@ module.exports = function (grunt) {
     'newer:autoprefixer'<% } %>
   ]);
 
-  // Building the app version
-  grunt.registerTask('app', [<% if (useJshint) { %>
-    'newer:jshint',<% } %><% if (useCoffee) { %>
-    'newer:coffeelint',
-    'newer:coffee',<% } %>
-    'newer:uglify',
-    'compile-css',<% if (starterTheme === 'roots') { %>
-    'version'<% } %>
-  ]);
 <% if (useTest) { %>
   // Unit-testing the app
   grunt.registerTask('test', [<% if (useTestConnect) { %>
@@ -494,16 +462,21 @@ module.exports = function (grunt) {
     'dist'
   ]);
 
-  grunt.registerTask('init', [<% if (starterTheme === 'roots') { %>
-    'copy:initphp',<% } %>
-    'app'
-  ]);
-
   // Watch task
   grunt.registerTask('serve', [
     'app',
     'connect:test',
     'watch'
+  ]);
+
+  // Building the app version
+  grunt.registerTask('app', [<% if (useJshint) { %>
+    'newer:jshint',<% } %><% if (useCoffee) { %>
+    'newer:coffeelint',
+    'newer:coffee',<% } %>
+    'newer:uglify',
+    'compile-css',<% if (starterTheme === 'roots') { %>
+    'version'<% } %>
   ]);
 
   // Building the dist version
