@@ -14,11 +14,11 @@ Add an options.js config file
 
 Add a .tmp folder? (and then usemin too?)
 
-> Like generator-webapp do. So no more 'uneditable' compiled/processed files like main.js and main.css poluting the app, amongst other advantages.
+> Like generator-webapp do. So no more 'uneditable' compiled/processed files like main.js and main.css poluting the app, amongst other advantages. And more complexity...
 
 Re-re-add the app/ directory?
 
-> Wordpress seems able to find themes in subdirs, is it a valid practice?
+> Wordpress seems able to find themes in subdirs, is it a valid (development) practice?
 
 Add grunt-concurrent tasks
 
@@ -35,8 +35,6 @@ Fix the php files copying routine
 
 > Already tried hard copying with [http://stackoverflow.com/questions/19582786/yeoman-custom-generator-how-to-access-the-generated-project-in-the-dependencie](this trick). Also gave a try to remote.copy(), raises a warning because of [https://github.com/yeoman/generator/issues/303](this overwriting issue).
 
-Fix the mocha/chai files copying routine (no sub-generator)
-
 Fix mocha tests to look nice in browser (plus jquery-plugin test refuse to work without app.js loaded)
 
 How to write a test on app.js? (no global from the anonymous IIFE)
@@ -48,4 +46,4 @@ Figure out why to explicitely call installDependencies (there was no need before
 
 When using Roots without Bootstrap, Roots markup still include Bootstrap's presentational classes.
 
-> Sounds like mass replace in many files. Out of the scope of my skills (wordpress php functions). Ask Roots authors.
+> Sounds like mass replace in many files. Out of the scope of my skills (wordpress php functions). Ask Roots authors!

@@ -129,57 +129,14 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
 };
 
 WordpressThemifyGenerator.prototype.app = function app() {
-
 	this.mkdir('assets');
 	this.mkdir('assets/css');
 	this.mkdir('assets/js');
 	this.mkdir('assets/fonts');
 
-	// PHP
+};
 
-	if (this.starterTheme === 'roots') {
-		this.mkdir('lib');
-		this.mkdir('templates');
-		this.mkdir('lang');
-		// Push modified php files
-		this.template('phpmod/lib/_scripts.php', '.phpmod/lib/scripts.php');
-	}
-	else if (this.starterTheme === 'none') {
-		// A static index.php (so the theme is visible by wordpress)
-		this.template('_index.php', 'index.php');
-	}
-
-	// Javascript
-	// Populates js directory
-	if (!this.useRequirejs) {
-		if (!this.useCoffee) {
-			this.template('assets/js/_app.js', 'assets/js/app.js');
-			if (this.useSampleJquery) {
-				this.copy('assets/js/plugins/jquery-plugin.js', 'assets/js/plugins/jquery-plugin.js');
-			}
-		} else {
-			this.template('assets/coffee/_app.coffee', 'assets/coffee/app.coffee');
-			if (this.useSampleJquery) {
-				this.copy('assets/coffee/plugins/jquery-plugin.coffee', 'assets/coffee/plugins/jquery-plugin.coffee');
-			}
-		}
-	} else {
-//    TODO : RequireJS skeleton
-	}
-
-	if (this.useTest) {
-//    this.mkdir('test');
-		this.directory('test/lib', 'test/lib');  // TODO : get mocha.js, mocha.css and chai.js from remote / bower_components
-		this.template('test/_index.html', 'test/index.html');
-		if (!this.useCoffee) {
-			this.template('test/spec/_test.js', 'test/spec/test.js');
-		} else {
-			this.template('test/spec/coffee/_test.coffee', 'test/spec/coffee/test.coffee');
-		}
-	}
-
-
-	// CSS
+WordpressThemifyGenerator.prototype.css = function css() {
 	if (this.preproCss === 'less') {
 		this.template('assets/less/main.less.tmpl', 'assets/less/main.less');
 		if (this.useBootstrap) {
@@ -199,33 +156,124 @@ WordpressThemifyGenerator.prototype.app = function app() {
 			this.template('assets/css/_app.css', 'assets/css/app.css');
 		}
 	}
+};
 
-	// Put on some sample images
-	this.directory('assets/img/', 'assets/img');
+WordpressThemifyGenerator.prototype.javascript = function javascript() {
+	if (!this.useRequirejs) {
+		if (!this.useCoffee) {
+			this.template('assets/js/_app.js', 'assets/js/app.js');
+			if (this.useSampleJquery) {
+				this.copy('assets/js/plugins/jquery-plugin.js', 'assets/js/plugins/jquery-plugin.js');
+			}
+		} else {
+			this.template('assets/coffee/_app.coffee', 'assets/coffee/app.coffee');
+			if (this.useSampleJquery) {
+				this.copy('assets/coffee/plugins/jquery-plugin.coffee', 'assets/coffee/plugins/jquery-plugin.coffee');
+			}
+		}
+	} else {
+		// TODO : RequireJS skeleton
+	}
+};
 
-	// Processing template files
+
+WordpressThemifyGenerator.prototype.test = function test() {
+	var cb = this.async();
+
+	if (this.useTest) {
+
+		this.mkdir('test/lib');
+
+		// Templating tests
+		this.template('test/_index.html', 'test/index.html');
+		if (!this.useCoffee) {
+			this.template('test/spec/_test.js', 'test/spec/test.js');
+		} else {
+			this.template('test/spec/coffee/_test.coffee', 'test/spec/coffee/test.coffee');
+		}
+		// Dunno where this file comes from
+		this.copy('test/lib/expect.js', 'test/lib/expect.js');
+
+		cb();
+	} else {
+		cb();
+	}
+};
+
+WordpressThemifyGenerator.prototype.remoteMocha = function remoteMocha() {
+	var cb   = this.async();
+
+	if (this.useTest) {
+		this.remote('visionmedia', 'mocha', '1.14.0', function (err, remote) {
+			if (err) { return cb(err); }
+
+			remote.copy('mocha.js', 'test/lib/mocha/mocha.js');
+			remote.copy('mocha.css', 'test/lib/mocha/mocha.css');
+			cb();
+		});
+	}
+	else {
+		cb();
+	}
+};
+
+WordpressThemifyGenerator.prototype.remoteChai = function remoteChai() {
+	var cb   = this.async();
+
+	if (this.useTest) {
+		this.remote('chaijs', 'chai', '1.8.0', function (err, remote) {
+			if (err) { return cb(err); }
+
+			remote.copy('chai.js', 'test/lib/chai.js');
+			cb();
+		});
+	}
+	else {
+		cb();
+	}
+};
+
+
+
+WordpressThemifyGenerator.prototype.php = function php() {
+	if (this.starterTheme === 'roots') {
+		this.mkdir('lib');
+		this.mkdir('templates');
+		this.mkdir('lang');
+		// Push modified php files
+		this.template('phpmod/lib/_scripts.php', '.phpmod/lib/scripts.php');
+	}
+	else if (this.starterTheme === 'none') {
+		// A static index.php (so the theme is visible by wordpress)
+		this.template('_index.php', 'index.php');
+	}
+
+};
+
+WordpressThemifyGenerator.prototype.projectfiles = function projectfiles() {
 	this.template('_package.json', 'package.json');
 	this.template('_bower.json', 'bower.json');
 	this.template('_Gruntfile.js', 'Gruntfile.js');
 	this.template('_README.md', 'README.md');
-	this.template('_style.css', 'style.css');
-};
 
-WordpressThemifyGenerator.prototype.projectfiles = function projectfiles() {
-	this.copy('screenshot.png', 'screenshot.png');
 	this.copy('gitignore', '.gitignore');
 	this.copy('editorconfig', '.editorconfig');
 	this.copy('jshintrc', '.jshintrc');
 	if (this.useCoffee) {
 		this.copy('coffeelintrc', '.coffeelintrc');
 	}
+
+	// Wordpress theme stuff
+	this.copy('screenshot.png', 'screenshot.png');
+	this.template('_style.css', 'style.css');
+
+	this.directory('assets/img/', 'assets/img');
 };
 
 WordpressThemifyGenerator.prototype.install = function () {
 	if (this.options['skip-install']) {
 		return;
 	}
-
 	var done = this.async();
 	this.installDependencies({
 		skipMessage: this.options['skip-install-message'],
@@ -233,6 +281,7 @@ WordpressThemifyGenerator.prototype.install = function () {
 		callback: done
 	});
 };
+
 // Second attempt to get PHP files copied
 // Working, BUT raises an warning prompt to confirm overwriting modified files
 // https://github.com/yeoman/generator/issues/303
@@ -243,7 +292,7 @@ WordpressThemifyGenerator.prototype.rootsPhpFiles = function rootsPhpFiles() {
 
 	if (this.starterTheme === 'roots') {
 		this.remote('roots', 'roots', '6.5.1', function (err, remote) {
-			if (err) { return cb(err) }
+			if (err) { return cb(err); }
 
 			remote.directory('lib', 'lib');
 			remote.directory('templates', 'templates');
@@ -260,10 +309,10 @@ WordpressThemifyGenerator.prototype.rootsPhpFiles = function rootsPhpFiles() {
 			self.template('phpmod/lib/_scripts.php', 'lib/scripts.php');
 			// I don't want my users to have a warning on fresh install!
 			cb();
-		})
+		});
 	}
 	else {
 		cb();
 	}
-}
+};
 */
