@@ -4,7 +4,7 @@ A modular Wordpress theme generator for [Yeoman](http://yeoman.io).
 
 Mostly based on popular [Roots](https://github.com/roots/roots) starter theme, plus inspiration from the mighty generator-webapp.
 
-(Still in early stage, please use with caution! See the [https://github.com/Chmood/generator-wordpress-themify/blob/master/TODO.md](TODO) to see what's going on.)
+(Still in early stage, please use with caution! See the [TODO](https://github.com/Chmood/generator-wordpress-themify/blob/master/TODO.md) to see what's going on.)
 
 
 ## Features
