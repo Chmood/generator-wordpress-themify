@@ -2,13 +2,9 @@
 
 ## Functions
 
-Coffeescript
-
-> http://js2coffee.org/
-
 RequireJS
 
-> Needs harcoded script inclusion, unless wp_enqueue() can handle data-main attribute
+> Needs harcoded script inclusion, unless wp_enqueue() can handle the data-main attribute
 Plus crappy tweeks in order to let wordpress handle jquery by itself. See : http://kaidez.com/requirejs-wordpress/
 
 

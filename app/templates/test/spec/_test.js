@@ -1,4 +1,6 @@
 /*global describe, it, expect, before, after */
+/*global jQuery */
+/*jshint expr: true*/
 'use strict';
 (function ($) {
 
@@ -33,4 +35,4 @@
     });<% } %>
   });
 
-  }(jQuery));
+}(jQuery));

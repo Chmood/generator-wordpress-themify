@@ -347,10 +347,10 @@ module.exports = function (grunt) {
       coffee: {
         files: ['assets/coffee/{,*/}*.{coffee,litcoffee,coffee.md}'],
         tasks: [<% if (useJshint) { %>
-          'newer:coffeelint:app',<% } %><% if (useTest && testFramework === 'mocha') { %>
+          'newer:coffeelint:app',<% } %>
+          'newer:coffee:app',<% if (useTest && testFramework === 'mocha') { %>
           'mocha',<% } else if (useTest && testFramework === 'jasmine') { %>
           'jasmine',<% } %>
-          'newer:coffee:app',
           'uglify'<% if (starterTheme === 'roots') { %>,
           'version'<% } %>
         ]
@@ -386,10 +386,6 @@ module.exports = function (grunt) {
         // force is needed in case of deleting files outside the root directory
         force: true
       },
-      app: [<% if (preproCss !== 'css') { %>
-        'assets/css/main.css',<% } %>
-        'assets/js/main.js'
-      ],
       dist: [
         '<%%= yeoman.dist %>'
       ]
@@ -468,18 +464,17 @@ module.exports = function (grunt) {
 
   // Compiles sass/less files to CSS
   grunt.registerTask('compile-css', [<% if (preproCss === 'less') { %>
-    'less:app',<% } %><% if (preproCss === 'sass') { %>
-    'compass:app',<% } %><% if (useAutoprefixer) { %>
-    'autoprefixer'<% } %>
+    'newer:less:app',<% } %><% if (preproCss === 'sass') { %>
+    'newer:compass:app',<% } %><% if (useAutoprefixer) { %>
+    'newer:autoprefixer'<% } %>
   ]);
 
   // Building the app version
-  grunt.registerTask('app', [
-    'clean:app',<% if (useJshint) { %>
-    'jshint',<% } %><% if (useCoffee) { %>
-    'coffeelint',
-    'coffee',<% } %>
-    'uglify',
+  grunt.registerTask('app', [<% if (useJshint) { %>
+    'newer:jshint',<% } %><% if (useCoffee) { %>
+    'newer:coffeelint',
+    'newer:coffee',<% } %>
+    'newer:uglify',
     'compile-css',<% if (starterTheme === 'roots') { %>
     'version'<% } %>
   ]);

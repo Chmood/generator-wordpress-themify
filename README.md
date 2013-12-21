@@ -14,6 +14,7 @@ Mostly based on popular [Roots](https://github.com/roots/roots) starter theme.
 * Image minification
 * True 'dist' folder for production use
 * Unit testing with Mocha
+* Coffeescript (and Coffeelint)
 * Some sample example files
 
 All features are optional, take only what you need!
