@@ -52,30 +52,29 @@ Install your theme and configure options :
 yo wordpress-themify
 ```
 
-### Theme activation
-
-Once the installation finished, you still need to initialize the theme.
-
-```
-grunt app
-```
-It will run the first compilation of your source files.
-Run ```grunt app``` anytime you want to compile your development theme, in case you don't use ```grunt serve``` (see below).
-
-In wordpress admin pannel, go to Appearance > Themes. Activate the development version of your theme. Browse to your site, and eventually turn on your browser's livereload plugin now.
-
-
-### Workflow
-
-Start watching for file change
+Build your dev theme, and start watching for file change
 
 ```
 grunt serve
 ```
 
-Now you're all set up, start building a great theme!
+### Theme activation
 
-When using unit-tests, you can also browse to http://127.0.0.1:9001 where tests report will be live-reloaded
+In the Wordpress admin pannel, go to Appearance > Themes. Activate the development version of your theme. Browse to your site, and eventually turn on your browser's livereload plugin now.
+
+When using unit-tests, you can also open a tab on http://127.0.0.1:9001 where tests report will be live-reloaded
+
+
+### Workflow
+
+Now you're all set up, start building a great theme!
+```grunt serve``` will watch for any source file modification, process them if needed, and refresh your browser
+
+In case you don't use ```grunt serve```, you can compile your dev theme manually :
+
+```
+grunt app
+```
 
 Once you're done, build an optimized production theme :
 (You can set the destination folder in Gruntfile.js)
@@ -83,7 +82,7 @@ Once you're done, build an optimized production theme :
 ```
 grunt dist
 ```
-(You can also just use ```grunt```.)
+(You can also just use ```grunt```, the default task.)
 
 
 And then switch wordpress to use this production theme.

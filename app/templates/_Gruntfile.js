@@ -475,7 +475,9 @@ module.exports = function (grunt) {
   // Building the app version
   grunt.registerTask('app', [<% if (useJshint) { %>
     'newer:jshint',<% } %><% if (useCoffee) { %>
-    'newer:coffeelint',
+    'newer:coffeelint',<% if (useTest && testFramework === 'mocha') { %>
+    'mocha',<% } else if (useTest && testFramework === 'jasmine') { %>
+    'jasmine',<% } %>
     'newer:coffee',<% } %>
     'newer:uglify',
     'compile-css',<% if (starterTheme === 'roots') { %>
