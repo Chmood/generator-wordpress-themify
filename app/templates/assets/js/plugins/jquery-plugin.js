@@ -3,7 +3,8 @@
  * BOOTSTRAP STYLE JQUERY PLUGIN TEMPLATE
  *
  * ========================================================================
- * By Nicolas Giethlen
+ * Copyright 2013 Twitter, Inc.
+ * Modified by Nicolas Giethlen
  */
 
 // How to use :

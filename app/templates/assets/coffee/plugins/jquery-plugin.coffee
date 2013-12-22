@@ -4,6 +4,7 @@
 # * BOOTSTRAP STYLE JQUERY PLUGIN TEMPLATE
 # *
 # * ========================================================================
+# * Copyright 2013 Twitter, Inc.
 # * By Nicolas Giethlen
 #
 
