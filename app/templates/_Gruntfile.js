@@ -46,7 +46,7 @@ module.exports = function (grunt) {
         'assets/coffee/{,*/}*.{coffee,litcoffee,coffee.md}'
       ]<% if (useTest) { %>,
       test: [
-        'test/spec/*.{coffee,litcoffee,coffee.md}'
+        'test/spec/coffee/*.{coffee,litcoffee,coffee.md}'
       ]<% } %>
     },<% } %>
 <% if (!useRequirejs) { %>    // Uglify scripts
