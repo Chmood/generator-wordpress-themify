@@ -31,14 +31,22 @@ Drop load-grunt-task in favor of conditional loading
 
 ## To fix
 
+### Urgent
+
+* imagemin (his png thing) no longer delete files outside the currunt working directory (die, vermin of CDFOCWD!).
+* regression bug : mocha connect test now fails with coffee : Warning: PhantomJS unable to load index.html URI
 * Damn FOUC when livereloading sass/less!
+
+
+### One day...
+
 * Fix mocha tests to look nice in browser (plus jquery-plugin test refuses to work without app.js loaded)
 * Find how to write a test on app.js (no global from the anonymous IIFE)
 * Figure out why to explicitly call installDependencies (there was no need to before, iirc)
-* newer:compass and newer:less stopped working
+* newer: stopped working on less and compass
 
 
-## Known issues
+## Known issues (aka "won't fix")
 
 When using Roots without Bootstrap, Roots markup still include Bootstrap's presentational classes.
 
