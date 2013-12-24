@@ -25,12 +25,16 @@ All features are optional, take only what you need!
 
 ### Tools installation
 
-(Assuming you already have node installed properly)
-Install software (needs admin rights) :
+> WARNING : by now, this generator hasn't been registered on npm yet. Just clone this repo, and ```npm link``` inside its directory. Will be fixed soon!
+
+(Assuming you already have node and yo installed properly)
+
+Install Themify globally (it requires having admin rights) :
 
 ```
-npm install -g yo generator-wordpress-themify
+npm install -g generator-wordpress-themify
 ```
+
 
 ### Theme creation
 
