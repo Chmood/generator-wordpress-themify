@@ -1,13 +1,13 @@
 {
   "name": "generator-wordpress-themify",
   "version": "0.0.2",
-  "description": "A generator for Yeoman",
+  "description": "A Wordpress theme modular generator for Yeoman, based on Roots starter theme",
   "keywords": [
     "yeoman-generator",
     "wordpress",
     "theme",
     "roots",
-    "requirejs",
+    "bootstrap",
     "modernizr"
   ],
   "author": {
