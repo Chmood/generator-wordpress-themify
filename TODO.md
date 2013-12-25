@@ -4,7 +4,6 @@
 
 ### Urgent
 
-* imagemin (the jpegtran thing) no longer delete files outside the currunt working directory (die, vermin of CDFOCWD!).
 * regression bug : mocha connect test now fails with coffee : Warning: PhantomJS unable to load index.html URI. With vanila js, tests pass in console but not on localhost:9001.
 * Damn FOUC when livereloading sass/less!
 
@@ -25,7 +24,6 @@ RequireJS
 Plus crappy tweeks in order to let wordpress handle jquery by itself. See : http://kaidez.com/requirejs-wordpress/
 
 * Stylus bootstrap ?
-* 
 * CSS linting (sounds easy)
 * Maybe Jasmine
 * Other starter themes : Bones, Underscores, Timber...

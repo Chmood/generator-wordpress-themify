@@ -19,7 +19,7 @@ var WordpressThemifyGenerator = module.exports = function WordpressThemifyGenera
 
 util.inherits(WordpressThemifyGenerator, yeoman.generators.Base);
 
-WordpressThemifyGenerator.prototype.futureAnswers = function futureAnswers() {
+WordpressThemifyGenerator.prototype.config = function config() {
 	this.cssFramework =     'bootstrap';
 	this.testFramework =    'mocha';
 	this.useTestConnect =   true;

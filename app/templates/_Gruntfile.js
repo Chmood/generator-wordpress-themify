@@ -240,9 +240,6 @@ module.exports = function (grunt) {
 
 <% if (useImagemin) { %>    // IMAGES
     imagemin: {
-      options: {
-        force: true
-      },
       dist: {
         files: [{
           expand: true,
@@ -252,7 +249,7 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.',
-          src: '{,*/}*.{gif,jpeg,jpg,png}',
+          src: '*.{gif,jpeg,jpg,png}',
           dest: '<%%= yeoman.dist %>'
         }]
       }
