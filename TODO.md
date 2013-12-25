@@ -1,13 +1,34 @@
 # TODO
 
-## Functions
+## To fix
+
+### Urgent
+
+* imagemin (the jpegtran thing) no longer delete files outside the currunt working directory (die, vermin of CDFOCWD!).
+* regression bug : mocha connect test now fails with coffee : Warning: PhantomJS unable to load index.html URI. With vanila js, tests pass in console but not on localhost:9001.
+* Damn FOUC when livereloading sass/less!
+
+
+### One day...
+
+* Fix mocha tests to look nice in browser (plus jquery-plugin test refuses to work without app.js loaded)
+* Find how to write a test on app.js (no global from the anonymous IIFE)
+* Figure out why to explicitly call installDependencies (there was no need to before, iirc)
+* newer: stopped working on less and compass
+
+
+## Future functionalities
 
 RequireJS
 
 > Needs harcoded script inclusion, unless wp_enqueue() can handle the data-main attribute
 Plus crappy tweeks in order to let wordpress handle jquery by itself. See : http://kaidez.com/requirejs-wordpress/
 
-Stylus bootstrap ?
+* Stylus bootstrap ?
+* 
+* CSS linting (sounds easy)
+* Maybe Jasmine
+* Other starter themes : Bones, Underscores, Timber...
 
 
 ## Enhancement
@@ -27,23 +48,6 @@ Add grunt-concurrent tasks
 Drop load-grunt-task in favor of conditional loading
 
 > Seems to boost smaller tasks : https://github.com/gruntjs/grunt/issues/975#issuecomment-29058707
-
-
-## To fix
-
-### Urgent
-
-* imagemin (his png thing) no longer delete files outside the currunt working directory (die, vermin of CDFOCWD!).
-* regression bug : mocha connect test now fails with coffee : Warning: PhantomJS unable to load index.html URI
-* Damn FOUC when livereloading sass/less!
-
-
-### One day...
-
-* Fix mocha tests to look nice in browser (plus jquery-plugin test refuses to work without app.js loaded)
-* Find how to write a test on app.js (no global from the anonymous IIFE)
-* Figure out why to explicitly call installDependencies (there was no need to before, iirc)
-* newer: stopped working on less and compass
 
 
 ## Known issues (aka "won't fix")

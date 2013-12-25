@@ -10,10 +10,21 @@ var WordpressThemifyGenerator = module.exports = function WordpressThemifyGenera
 	this.options = options;
 	this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 
+	this.on('end', function () {
+		this.installDependencies({ skipInstall: options['skip-install'] });
+	});
+
 	// TODO : command line option for parsing a json config file
 };
 
 util.inherits(WordpressThemifyGenerator, yeoman.generators.Base);
+
+WordpressThemifyGenerator.prototype.futureAnswers = function futureAnswers() {
+	this.cssFramework =     'bootstrap';
+	this.testFramework =    'mocha';
+	this.useTestConnect =   true;
+	this.useRequirejs =     false;
+};
 
 WordpressThemifyGenerator.prototype.askFor = function askFor() {
 	var cb = this.async();
@@ -102,13 +113,6 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
 
 		function hasUse(prompt, feat) { return answers[prompt].indexOf(feat) !== -1; }
 
-		// Hardcoded values for future features
-		this.cssFramework =     'bootstrap';
-		this.testFramework =    'mocha';
-		this.useTestConnect =   true;
-		this.useRequirejs =     false;
-//    this.useRequirejs =     hasUse('js', 'useRequirejs');
-
 		// Dumps answers to variables
 		this.themeName =        answers.themeName;
 		this.starterTheme =     answers.starterTheme;
@@ -128,12 +132,11 @@ WordpressThemifyGenerator.prototype.askFor = function askFor() {
 	}.bind(this));
 };
 
-WordpressThemifyGenerator.prototype.app = function app() {
+WordpressThemifyGenerator.prototype.dir = function dir() {
 	this.mkdir('assets');
 	this.mkdir('assets/css');
 	this.mkdir('assets/js');
 	this.mkdir('assets/fonts');
-
 };
 
 WordpressThemifyGenerator.prototype.css = function css() {
@@ -303,16 +306,4 @@ WordpressThemifyGenerator.prototype.projectfiles = function projectfiles() {
 	this.template('_style.css', 'style.css');
 
 	this.directory('assets/img/', 'assets/img');
-};
-
-WordpressThemifyGenerator.prototype.install = function () {
-	if (this.options['skip-install']) {
-		return;
-	}
-	var done = this.async();
-	this.installDependencies({
-		skipMessage: this.options['skip-install-message'],
-		skipInstall: this.options['skip-install'],
-		callback: done
-	});
 };
