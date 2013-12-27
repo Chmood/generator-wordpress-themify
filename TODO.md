@@ -4,7 +4,8 @@
 
 ### Urgent
 
-* regression bug : mocha connect test now fails with coffee : Warning: PhantomJS unable to load index.html URI. With vanila js, tests pass in console but not on localhost:9001.
+* Weird behaviour of imagemin on png's : "cannot delete outside the currunt working directory". Can be fixed in running it once in an inner dir, then it should work again for an outer dir (see [this issue](https://github.com/gruntjs/grunt-contrib-imagemin/issues/16) and [that one](https://github.com/gruntjs/grunt-contrib-imagemin/issues/99))
+* Regression bug : mocha connect test now fails with coffee : Warning: PhantomJS unable to load index.html URI. With vanila js, tests pass in console but not on localhost:9001.
 * Damn FOUC when livereloading sass/less!
 
 
